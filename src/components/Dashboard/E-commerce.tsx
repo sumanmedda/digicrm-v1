@@ -1,10 +1,8 @@
 "use client";
 import React from "react";
-import ChartThree from "../Charts/ChartThree";
-import ChartTwo from "../Charts/ChartTwo";
-import ChatCard from "../Chat/ChatCard";
+import dynamic from 'next/dynamic';
+const ChartTwo = dynamic(() => import('../Charts/ChartTwo'), { ssr: false });
 import TableOne from "../Tables/TableOne";
-import MapOne from "../Maps/MapOne";
 import DataStatsOne from "@/components/DataStats/DataStatsOne";
 import ChartOne from "@/components/Charts/ChartOne";
 

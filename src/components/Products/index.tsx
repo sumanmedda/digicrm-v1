@@ -74,6 +74,14 @@ const ProductsBox = () => {
   return (
     <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
       <div className="flex flex-col sm:flex-row justify-between mb-5.5">
+          <div>
+          <button
+            onClick={handleDateClear}
+            className="px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 w-full sm:w-auto"
+          >
+            Create New Product
+          </button>
+          </div>
         <div className="flex flex-col sm:flex-row items-center mb-4 sm:mb-0 w-full">
           <DatePicker
             selected={startDate}

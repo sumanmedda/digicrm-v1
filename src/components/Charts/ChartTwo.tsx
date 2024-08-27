@@ -1,5 +1,6 @@
+'use client'
 import { ApexOptions } from "apexcharts";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import DefaultSelectOption from "@/components/SelectOption/DefaultSelectOption";
 
@@ -29,7 +30,6 @@ const ChartTwo: React.FC = () => {
         enabled: false,
       },
     },
-
     responsive: [
       {
         breakpoint: 1536,
@@ -55,7 +55,6 @@ const ChartTwo: React.FC = () => {
     dataLabels: {
       enabled: false,
     },
-
     grid: {
       strokeDashArray: 5,
       xaxis: {
@@ -69,7 +68,6 @@ const ChartTwo: React.FC = () => {
         },
       },
     },
-
     xaxis: {
       categories: ["M", "T", "W", "T", "F", "S", "S"],
     },
@@ -79,7 +77,6 @@ const ChartTwo: React.FC = () => {
       fontFamily: "Satoshi",
       fontWeight: 500,
       fontSize: "14px",
-
       markers: {
         radius: 99,
         width: 16,
@@ -92,6 +89,16 @@ const ChartTwo: React.FC = () => {
       opacity: 1,
     },
   };
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; // or a loading spinner
+  }
 
   return (
     <div className="col-span-12 rounded-[10px] bg-white px-7.5 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-5">
