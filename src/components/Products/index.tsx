@@ -116,7 +116,7 @@ const ProductsBox = () => {
           />
           <button
             onClick={handleDateClear}
-            className="px-4 py-2 border border-red-700 rounded-md bg-red-600 text-black-700 hover:bg-gray-200 w-full sm:w-auto"
+            className="px-2 py-2 border border-black-700 rounded-md bg-black-600 text-black-700 hover:bg-gray-200 w-full sm:w-auto h-10"
           >
             <TiDeleteOutline />
           </button>
@@ -137,7 +137,7 @@ const ProductsBox = () => {
         <div className="min-w-[600px] grid grid-cols-5">
           <div className="px-2 pb-3.5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Transaction ID
+              Product ID
             </h5>
           </div>
           <div className="px-2 pb-3.5 text-center">
@@ -186,7 +186,7 @@ const ProductsBox = () => {
             </div>
 
             <div className="flex items-center justify-center px-2 py-4">
-              <p className={`font-medium ${isOverdue(invoice.dueDate) ? "text-red-500" : "text-black"}`}>
+              <p className={`font-medium ${isOverdue(invoice.dueDate) ? "text-red-500" : ""}`}>
                 {invoice.dueDate}
               </p>
             </div>
