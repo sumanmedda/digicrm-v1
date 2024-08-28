@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <>
       <DefaultLayout>
-        {token === null ? <ECommerce /> : <Signin />}
+        {token != null ? <ECommerce /> : <Signin />}
       </DefaultLayout>
     </>
   );
