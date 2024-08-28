@@ -1,32 +1,17 @@
 'use client';
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useRouter } from "next/navigation";
-import { TiDeleteOutline } from "react-icons/ti";
 
-const initialInvoiceData = [
-  { invoiceId: "TRID-001", sentTo: "John Doe", amount: "1,250", dueDate: "2024-09-15", status: "Paid" },
-  { invoiceId: "TRID-002", sentTo: "Jane Smith", amount: "2,450", dueDate: "2024-09-18", status: "Pending" },
-  { invoiceId: "TRID-003", sentTo: "Tom Johnson", amount: "3,550", dueDate: "2024-09-20", status: "Overdue" },
-  { invoiceId: "TRID-004", sentTo: "Emily Davis", amount: "1,750", dueDate: "2024-09-22", status: "Paid" },
-  { invoiceId: "TRID-005", sentTo: "Michael Brown", amount: "4,350", dueDate: "2024-09-25", status: "Pending" },
-  { invoiceId: "TRID-006", sentTo: "Chris Wilson", amount: "5,650", dueDate: "2024-09-27", status: "Overdue" },
-  { invoiceId: "TRID-007", sentTo: "Laura Miller", amount: "6,150", dueDate: "2024-09-30", status: "Paid" },
-  { invoiceId: "TRID-008", sentTo: "Kevin Garcia", amount: "7,250", dueDate: "2024-10-02", status: "Pending" },
-  { invoiceId: "TRID-009", sentTo: "Sarah Moore", amount: "8,350", dueDate: "2024-10-05", status: "Overdue" },
-  { invoiceId: "TRID-010", sentTo: "Daniel Taylor", amount: "9,450", dueDate: "2024-10-08", status: "Paid" },
-  { invoiceId: "TRID-011", sentTo: "Sophia Martinez", amount: "2,550", dueDate: "2024-10-10", status: "Pending" },
-  { invoiceId: "TRID-012", sentTo: "James Anderson", amount: "1,650", dueDate: "2024-10-12", status: "Overdue" },
-  { invoiceId: "TRID-013", sentTo: "Olivia Thomas", amount: "3,750", dueDate: "2024-10-15", status: "Paid" },
-  { invoiceId: "TRID-014", sentTo: "Jacob Lee", amount: "4,850", dueDate: "2024-10-18", status: "Pending" },
-  { invoiceId: "TRID-015", sentTo: "Ava Hernandez", amount: "5,950", dueDate: "2024-10-20", status: "Overdue" },
-  { invoiceId: "TRID-016", sentTo: "Mason Lewis", amount: "6,250", dueDate: "2024-10-23", status: "Paid" },
-  { invoiceId: "TRID-017", sentTo: "Mia Walker", amount: "7,350", dueDate: "2024-10-25", status: "Pending" },
-  { invoiceId: "TRID-018", sentTo: "Elijah Hall", amount: "8,450", dueDate: "2024-10-27", status: "Overdue" },
-  { invoiceId: "TRID-019", sentTo: "Lucas Young", amount: "9,550", dueDate: "2024-10-30", status: "Paid" },
-  { invoiceId: "TRID-020", sentTo: "Amelia King", amount: "1,850", dueDate: "2024-11-02", status: "Pending" },
+const initialTransactionData = [
+  { transactionId: "TXN-001", customer: "John Doe", amount: "1,250", billingDate: "2024-09-01", settlementDate: "2024-09-10", type: "Credit" },
+  { transactionId: "TXN-002", customer: "Jane Smith", amount: "2,450", billingDate: "2024-09-02", settlementDate: "2024-09-12", type: "Debit" },
+  { transactionId: "TXN-003", customer: "Tom Johnson", amount: "3,550", billingDate: "2024-09-03", settlementDate: "2024-09-13", type: "Credit" },
+  { transactionId: "TXN-004", customer: "Emily Davis", amount: "1,750", billingDate: "2024-09-04", settlementDate: "2024-09-14", type: "Debit" },
+  { transactionId: "TXN-005", customer: "Michael Brown", amount: "4,350", billingDate: "2024-09-05", settlementDate: "2024-09-15", type: "Credit" },
+  // Add 15 more entries...
 ];
 
 const TransactionBox = () => {
@@ -35,7 +20,7 @@ const TransactionBox = () => {
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [invoices, setInvoices] = useState(initialInvoiceData);
+  const [transactions, setTransactions] = useState(initialTransactionData);
   const itemsPerPage = 5;
 
   const handleDateClear = () => {
@@ -43,47 +28,39 @@ const TransactionBox = () => {
     setEndDate(undefined);
   };
 
-  const handleStatusChange = (invoiceId: string, newStatus: string) => {
-    const updatedInvoices = invoices.map((invoice) =>
-      invoice.invoiceId === invoiceId ? { ...invoice, status: newStatus } : invoice
-    );
-    setInvoices(updatedInvoices);
-  };
-
-  const filteredInvoices = invoices.filter((invoice) => {
+  const filteredTransactions = transactions.filter((transaction) => {
     const isWithinDateRange =
-      (!startDate || new Date(invoice.dueDate) >= startDate) &&
-      (!endDate || new Date(invoice.dueDate) <= endDate);
-  
+      (!startDate || new Date(transaction.billingDate) >= startDate) &&
+      (!endDate || new Date(transaction.settlementDate) <= endDate);
+
     const matchesSearchTerm =
-      invoice.invoiceId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.sentTo.toLowerCase().includes(searchTerm.toLowerCase());
-  
+      transaction.transactionId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.customer.toLowerCase().includes(searchTerm.toLowerCase());
+
     return isWithinDateRange && matchesSearchTerm;
   });
 
-  const totalPages = Math.ceil(filteredInvoices.length / itemsPerPage);
-  const paginatedInvoices = filteredInvoices.slice(
+  const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+  const paginatedTransactions = filteredTransactions.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  const isOverdue = (dueDate: string) => {
-    const currentDate = new Date();
-    return new Date(dueDate) < currentDate;
+  const handleRowClick = (transactionId: string) => {
+    router.push(`/transaction/${transactionId}`);
   };
 
-  const handleAddProduct = () => {
-    router.push("/pages/newproduct");
+  const getTransactionColor = (type: string) => {
+    return type === "Debit" ? "text-red-500" : "text-green-500";
   };
 
   return (
     <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
-      
-      {/* Add Product Button */}
+
+      {/* Add Transaction Button */}
       <div className="mb-5.5">
         <button
-          onClick={handleAddProduct}
+          onClick={() => router.push("/transactions/new")}
           className="px-4 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 w-full sm:w-auto"
         >
           Add Transaction
@@ -118,7 +95,7 @@ const TransactionBox = () => {
             onClick={handleDateClear}
             className="h-10 px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2"
           >
-            <TiDeleteOutline />
+            Clear Dates
           </button>
         </div>
         <div className="flex items-center w-full sm:w-auto">
@@ -132,81 +109,52 @@ const TransactionBox = () => {
         </div>
       </div>
 
-      {/* Invoices Table */}
+      {/* Transactions Table */}
       <div className="overflow-x-auto">
-        <div className="min-w-[600px] grid grid-cols-5">
+        <div className="min-w-[700px] grid grid-cols-6">
           <div className="px-2 pb-3.5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Transaction ID
-            </h5>
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Transaction ID</h5>
           </div>
           <div className="px-2 pb-3.5 text-center">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Sent To
-            </h5>
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Customer</h5>
           </div>
           <div className="px-2 pb-3.5 text-center">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Amount
-            </h5>
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Amount</h5>
           </div>
           <div className="px-2 pb-3.5 text-center">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Due Date
-            </h5>
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Billing Date</h5>
           </div>
           <div className="px-2 pb-3.5 text-center">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Status
-            </h5>
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Settlement Date</h5>
+          </div>
+          <div className="px-2 pb-3.5 text-center">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Type</h5>
           </div>
         </div>
 
-        {paginatedInvoices.map((invoice) => (
+        {paginatedTransactions.map((transaction) => (
           <div
-            className={`grid min-w-[600px] grid-cols-5 border-b border-stroke dark:border-dark-3`}
-            key={invoice.invoiceId}
+            key={transaction.transactionId}
+            onClick={() => handleRowClick(transaction.transactionId)}
+            className={`grid min-w-[700px] grid-cols-6 border-b border-stroke dark:border-dark-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700`}
           >
             <div className="flex items-center gap-3.5 px-2 py-4">
-              <p className="font-medium text-dark dark:text-white">
-                {invoice.invoiceId}
-              </p>
+              <p className="font-medium text-dark dark:text-white">{transaction.transactionId}</p>
             </div>
-
             <div className="flex items-center justify-center px-2 py-4">
-              <p className="font-medium text-dark dark:text-white">
-                {invoice.sentTo}
-              </p>
+              <p className="font-medium text-dark dark:text-white">{transaction.customer}</p>
             </div>
-
             <div className="flex items-center justify-center px-2 py-4">
-              <p className="font-medium text-green-light-1">
-                ${invoice.amount}
-              </p>
+              <p className="font-medium text-green-light-1">${transaction.amount}</p>
             </div>
-
             <div className="flex items-center justify-center px-2 py-4">
-              <p className={`font-medium ${isOverdue(invoice.dueDate) ? "text-red-500" : ""}`}>
-                {invoice.dueDate}
-              </p>
+              <p className="font-medium text-dark dark:text-white">{transaction.billingDate}</p>
             </div>
-
             <div className="flex items-center justify-center px-2 py-4">
-              <select
-                value={invoice.status}
-                onChange={(e) => handleStatusChange(invoice.invoiceId, e.target.value)}
-                className={`font-medium px-2 py-2 rounded-md shadow ${
-                  invoice.status === "Paid"
-                    ? "text-green-500"
-                    : invoice.status === "Overdue"
-                    ? "text-red-500"
-                    : "text-yellow-500"
-                }`}
-              >
-                <option value="Paid" className="text-green-500">Paid</option>
-                <option value="Pending" className="text-yellow-500">Pending</option>
-                <option value="Overdue" className="text-red-500">Overdue</option>
-              </select>
+              <p className="font-medium text-dark dark:text-white">{transaction.settlementDate}</p>
+            </div>
+            <div className="flex items-center justify-center px-2 py-4">
+              <p className={`font-medium ${getTransactionColor(transaction.type)}`}>{transaction.type}</p>
             </div>
           </div>
         ))}
