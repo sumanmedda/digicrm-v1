@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from "react";
-import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useRouter } from "next/navigation";
+
 
 const initialInvoiceData = [
   { invoiceId: "PRDT-001", sentTo: "John Doe", amount: "1,250", dueDate: "2024-09-15", status: "Paid" },
@@ -29,6 +30,7 @@ const initialInvoiceData = [
 ];
 
 const ProductsBox = () => {
+  const router = useRouter();
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState("");
@@ -71,12 +73,16 @@ const ProductsBox = () => {
     return new Date(dueDate) < currentDate;
   };
 
+  const handleCreateNewProduct = () => {
+    router.push("/pages/newproduct");
+  };
+
   return (
     <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
       <div className="flex flex-col sm:flex-row justify-between mb-5.5">
           <div>
           <button
-            onClick={handleDateClear}
+            onClick={handleCreateNewProduct}
             className="px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 w-full sm:w-auto"
           >
             Create New Product
