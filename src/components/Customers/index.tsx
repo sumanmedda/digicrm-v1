@@ -1,34 +1,36 @@
 'use client';
 
 import { useState } from "react";
-import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useRouter } from "next/navigation";
+import { TiDeleteOutline } from "react-icons/ti";
 
 const initialInvoiceData = [
-  { invoiceId: "CSTR-001", sentTo: "John Doe", amount: "1,250", dueDate: "2024-09-15", status: "Paid" },
-  { invoiceId: "CSTR-002", sentTo: "Jane Smith", amount: "2,450", dueDate: "2024-09-18", status: "Pending" },
-  { invoiceId: "CSTR-003", sentTo: "Tom Johnson", amount: "3,550", dueDate: "2024-09-20", status: "Overdue" },
-  { invoiceId: "CSTR-004", sentTo: "Emily Davis", amount: "1,750", dueDate: "2024-09-22", status: "Paid" },
-  { invoiceId: "CSTR-005", sentTo: "Michael Brown", amount: "4,350", dueDate: "2024-09-25", status: "Pending" },
-  { invoiceId: "CSTR-006", sentTo: "Chris Wilson", amount: "5,650", dueDate: "2024-09-27", status: "Overdue" },
-  { invoiceId: "CSTR-007", sentTo: "Laura Miller", amount: "6,150", dueDate: "2024-09-30", status: "Paid" },
-  { invoiceId: "CSTR-008", sentTo: "Kevin Garcia", amount: "7,250", dueDate: "2024-10-02", status: "Pending" },
-  { invoiceId: "CSTR-009", sentTo: "Sarah Moore", amount: "8,350", dueDate: "2024-10-05", status: "Overdue" },
-  { invoiceId: "CSTR-010", sentTo: "Daniel Taylor", amount: "9,450", dueDate: "2024-10-08", status: "Paid" },
-  { invoiceId: "CSTR-011", sentTo: "Sophia Martinez", amount: "2,550", dueDate: "2024-10-10", status: "Pending" },
-  { invoiceId: "CSTR-012", sentTo: "James Anderson", amount: "1,650", dueDate: "2024-10-12", status: "Overdue" },
-  { invoiceId: "CSTR-013", sentTo: "Olivia Thomas", amount: "3,750", dueDate: "2024-10-15", status: "Paid" },
-  { invoiceId: "CSTR-014", sentTo: "Jacob Lee", amount: "4,850", dueDate: "2024-10-18", status: "Pending" },
-  { invoiceId: "CSTR-015", sentTo: "Ava Hernandez", amount: "5,950", dueDate: "2024-10-20", status: "Overdue" },
-  { invoiceId: "CSTR-016", sentTo: "Mason Lewis", amount: "6,250", dueDate: "2024-10-23", status: "Paid" },
-  { invoiceId: "CSTR-017", sentTo: "Mia Walker", amount: "7,350", dueDate: "2024-10-25", status: "Pending" },
-  { invoiceId: "CSTR-018", sentTo: "Elijah Hall", amount: "8,450", dueDate: "2024-10-27", status: "Overdue" },
-  { invoiceId: "CSTR-019", sentTo: "Lucas Young", amount: "9,550", dueDate: "2024-10-30", status: "Paid" },
-  { invoiceId: "CSTR-020", sentTo: "Amelia King", amount: "1,850", dueDate: "2024-11-02", status: "Pending" },
+  { invoiceId: "CSTR-001", sentTo: "John Doe", amount: "1,250", dueDate: "2024-09-15" },
+  { invoiceId: "CSTR-002", sentTo: "Jane Smith", amount: "2,450", dueDate: "2024-09-18" },
+  { invoiceId: "CSTR-003", sentTo: "Tom Johnson", amount: "3,550", dueDate: "2024-09-20" },
+  { invoiceId: "CSTR-004", sentTo: "Emily Davis", amount: "1,750", dueDate: "2024-09-22" },
+  { invoiceId: "CSTR-005", sentTo: "Michael Brown", amount: "4,350", dueDate: "2024-09-25" },
+  { invoiceId: "CSTR-006", sentTo: "Chris Wilson", amount: "5,650", dueDate: "2024-09-27" },
+  { invoiceId: "CSTR-007", sentTo: "Laura Miller", amount: "6,150", dueDate: "2024-09-30" },
+  { invoiceId: "CSTR-008", sentTo: "Kevin Garcia", amount: "7,250", dueDate: "2024-10-02" },
+  { invoiceId: "CSTR-009", sentTo: "Sarah Moore", amount: "8,350", dueDate: "2024-10-05" },
+  { invoiceId: "CSTR-010", sentTo: "Daniel Taylor", amount: "9,450", dueDate: "2024-10-08" },
+  { invoiceId: "CSTR-011", sentTo: "Sophia Martinez", amount: "2,550", dueDate: "2024-10-10" },
+  { invoiceId: "CSTR-012", sentTo: "James Anderson", amount: "1,650", dueDate: "2024-10-12" },
+  { invoiceId: "CSTR-013", sentTo: "Olivia Thomas", amount: "3,750", dueDate: "2024-10-15" },
+  { invoiceId: "CSTR-014", sentTo: "Jacob Lee", amount: "4,850", dueDate: "2024-10-18" },
+  { invoiceId: "CSTR-015", sentTo: "Ava Hernandez", amount: "5,950", dueDate: "2024-10-20" },
+  { invoiceId: "CSTR-016", sentTo: "Mason Lewis", amount: "6,250", dueDate: "2024-10-23" },
+  { invoiceId: "CSTR-017", sentTo: "Mia Walker", amount: "7,350", dueDate: "2024-10-25" },
+  { invoiceId: "CSTR-018", sentTo: "Elijah Hall", amount: "8,450", dueDate: "2024-10-27" },
+  { invoiceId: "CSTR-019", sentTo: "Lucas Young", amount: "9,550", dueDate: "2024-10-30" },
+  { invoiceId: "CSTR-020", sentTo: "Amelia King", amount: "1,850", dueDate: "2024-11-02" },
 ];
 
 const CustomerBox = () => {
+  const router = useRouter();
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState("");
@@ -41,10 +43,8 @@ const CustomerBox = () => {
     setEndDate(undefined);
   };
 
-  const handleStatusChange = (invoiceId: string, newStatus: string) => {
-    const updatedInvoices = invoices.map((invoice) =>
-      invoice.invoiceId === invoiceId ? { ...invoice, status: newStatus } : invoice
-    );
+  const handleDelete = (invoiceId: string) => {
+    const updatedInvoices = invoices.filter(invoice => invoice.invoiceId !== invoiceId);
     setInvoices(updatedInvoices);
   };
 
@@ -52,11 +52,11 @@ const CustomerBox = () => {
     const isWithinDateRange =
       (!startDate || new Date(invoice.dueDate) >= startDate) &&
       (!endDate || new Date(invoice.dueDate) <= endDate);
-  
+
     const matchesSearchTerm =
       invoice.invoiceId.toLowerCase().includes(searchTerm.toLowerCase()) ||
       invoice.sentTo.toLowerCase().includes(searchTerm.toLowerCase());
-  
+
     return isWithinDateRange && matchesSearchTerm;
   });
 
@@ -66,13 +66,20 @@ const CustomerBox = () => {
     currentPage * itemsPerPage
   );
 
-  const isOverdue = (dueDate: string) => {
-    const currentDate = new Date();
-    return new Date(dueDate) < currentDate;
-  };
-
   return (
     <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
+      
+      {/* Add Product Button */}
+      <div className="mb-5.5">
+        <button
+          onClick={() => router.push("/pages/newproduct")}
+          className="px-4 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 w-full sm:w-auto"
+        >
+          Add Customer
+        </button>
+      </div>
+
+      {/* Date Pickers and Search */}
       <div className="flex flex-col sm:flex-row justify-between mb-5.5">
         <div className="flex flex-col sm:flex-row items-center mb-4 sm:mb-0 w-full">
           <DatePicker
@@ -83,7 +90,7 @@ const CustomerBox = () => {
             endDate={endDate}
             placeholderText="Start Date"
             dateFormat={"yyyy-MM-dd"}
-            className="border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto"
+            className="border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 sm:mr-2 w-full"
           />
           <DatePicker
             selected={endDate}
@@ -94,13 +101,13 @@ const CustomerBox = () => {
             minDate={startDate}
             placeholderText="End Date"
             dateFormat={"yyyy-MM-dd"}
-            className="border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto"
+            className="border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 w-full"
           />
           <button
             onClick={handleDateClear}
-            className="px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 w-full sm:w-auto"
+            className="h-10 px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2"
           >
-            Clear Dates
+            <TiDeleteOutline />
           </button>
         </div>
         <div className="flex items-center w-full sm:w-auto">
@@ -114,11 +121,12 @@ const CustomerBox = () => {
         </div>
       </div>
 
+      {/* Invoices Table */}
       <div className="overflow-x-auto">
-        <div className="min-w-[600px] grid grid-cols-5">
+        <div className="min-w-[500px] grid grid-cols-4">
           <div className="px-2 pb-3.5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Transaction ID
+              Customer ID
             </h5>
           </div>
           <div className="px-2 pb-3.5 text-center">
@@ -133,19 +141,14 @@ const CustomerBox = () => {
           </div>
           <div className="px-2 pb-3.5 text-center">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Due Date
-            </h5>
-          </div>
-          <div className="px-2 pb-3.5 text-center">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Status
+              Action
             </h5>
           </div>
         </div>
 
         {paginatedInvoices.map((invoice) => (
           <div
-            className={`grid min-w-[600px] grid-cols-5 border-b border-stroke dark:border-dark-3`}
+            className={`grid min-w-[500px] grid-cols-4 border-b border-stroke dark:border-dark-3`}
             key={invoice.invoiceId}
           >
             <div className="flex items-center gap-3.5 px-2 py-4">
@@ -161,53 +164,41 @@ const CustomerBox = () => {
             </div>
 
             <div className="flex items-center justify-center px-2 py-4">
-              <p className="font-medium text-green-light-1">
+              <p className="font-medium text-dark dark:text-white">
                 ${invoice.amount}
               </p>
             </div>
 
             <div className="flex items-center justify-center px-2 py-4">
-              <p className={`font-medium ${isOverdue(invoice.dueDate) ? "text-red-500" : "text-black"}`}>
-                {invoice.dueDate}
-              </p>
-            </div>
-
-            <div className="flex items-center justify-center px-2 py-4">
-              <select
-                value={invoice.status}
-                onChange={(e) => handleStatusChange(invoice.invoiceId, e.target.value)}
-                className={`font-medium px-2 py-2 rounded-md shadow ${
-                  invoice.status === "Paid"
-                    ? "text-green-500"
-                    : invoice.status === "Overdue"
-                    ? "text-red-500"
-                    : "text-yellow-500"
-                }`}
+              <button
+                onClick={() => handleDelete(invoice.invoiceId)}
+                className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
               >
-                <option value="Paid" className="text-green-500">Paid</option>
-                <option value="Pending" className="text-yellow-500">Pending</option>
-                <option value="Overdue" className="text-red-500">Overdue</option>
-              </select>
+                Delete
+              </button>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="flex justify-between mt-4">
+      {/* Pagination */}
+      <div className="flex justify-between items-center mt-4">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
-          className="px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200"
+          className="px-3 py-1 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200"
         >
           Previous
         </button>
-        <p className="text-sm text-gray-700 dark:text-white">
+
+        <span>
           Page {currentPage} of {totalPages}
-        </p>
+        </span>
+
         <button
           onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200"
+          className="px-3 py-1 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200"
         >
           Next
         </button>
