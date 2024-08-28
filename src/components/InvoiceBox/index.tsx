@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from "react";
-import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useRouter } from "next/navigation";
+import { TiDeleteOutline } from "react-icons/ti";
 
 const initialInvoiceData = [
   { invoiceId: "INV-001", sentTo: "John Doe", amount: "1,250", dueDate: "2024-09-15", status: "Paid" },
@@ -29,6 +30,7 @@ const initialInvoiceData = [
 ];
 
 const InvoiceBox = () => {
+  const router = useRouter();
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState("");
@@ -71,8 +73,24 @@ const InvoiceBox = () => {
     return new Date(dueDate) < currentDate;
   };
 
+  const handleAddProduct = () => {
+    router.push("/pages/newproduct");
+  };
+
   return (
     <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
+      
+      {/* Add Product Button */}
+      <div className="mb-5.5">
+        <button
+          onClick={handleAddProduct}
+          className="px-4 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 w-full sm:w-auto"
+        >
+          Add Invoice
+        </button>
+      </div>
+
+      {/* Date Pickers and Search */}
       <div className="flex flex-col sm:flex-row justify-between mb-5.5">
         <div className="flex flex-col sm:flex-row items-center mb-4 sm:mb-0 w-full">
           <DatePicker
@@ -83,7 +101,7 @@ const InvoiceBox = () => {
             endDate={endDate}
             placeholderText="Start Date"
             dateFormat={"yyyy-MM-dd"}
-            className="border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto"
+            className=" border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 sm:mr-2 w-full"
           />
           <DatePicker
             selected={endDate}
@@ -94,13 +112,13 @@ const InvoiceBox = () => {
             minDate={startDate}
             placeholderText="End Date"
             dateFormat={"yyyy-MM-dd"}
-            className="border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto"
+            className="border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 w-full"
           />
           <button
             onClick={handleDateClear}
-            className="px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 w-full sm:w-auto"
+            className="h-10 px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2"
           >
-            Clear Dates
+            <TiDeleteOutline />
           </button>
         </div>
         <div className="flex items-center w-full sm:w-auto">
@@ -114,6 +132,7 @@ const InvoiceBox = () => {
         </div>
       </div>
 
+      {/* Invoices Table */}
       <div className="overflow-x-auto">
         <div className="min-w-[600px] grid grid-cols-5">
           <div className="px-2 pb-3.5">
@@ -167,7 +186,7 @@ const InvoiceBox = () => {
             </div>
 
             <div className="flex items-center justify-center px-2 py-4">
-              <p className={`font-medium ${isOverdue(invoice.dueDate) ? "text-red-500" : "text-black"}`}>
+              <p className={`font-medium ${isOverdue(invoice.dueDate) ? "text-red-500" : ""}`}>
                 {invoice.dueDate}
               </p>
             </div>
@@ -193,6 +212,7 @@ const InvoiceBox = () => {
         ))}
       </div>
 
+      {/* Pagination */}
       <div className="flex justify-between mt-4">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
