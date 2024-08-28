@@ -1,5 +1,6 @@
+'use client'
 import { ApexOptions } from "apexcharts";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import DefaultSelectOption from "@/components/SelectOption/DefaultSelectOption";
 
@@ -126,6 +127,16 @@ const ChartOne: React.FC = () => {
       },
     },
   };
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; // or a loading spinner
+  }
 
   return (
     <div className="col-span-12 rounded-[10px] bg-white px-7.5 pb-6 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-7">
