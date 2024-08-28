@@ -46,8 +46,8 @@ const TransactionBox = () => {
     currentPage * itemsPerPage
   );
 
-  const handleRowClick = (transactionId: string) => {
-    router.push(`/transaction/${transactionId}`);
+  const handleRowClick = (transactionId: string) => { 
+    router.push(`/pages/transactions/${transactionId}`);  
   };
 
   const getTransactionColor = (type: string) => {
