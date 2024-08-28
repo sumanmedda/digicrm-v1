@@ -116,7 +116,7 @@ const ProductsBox = () => {
           />
           <button
             onClick={handleDateClear}
-            className="px-2 py-2 border border-black-700 rounded-md bg-black-600 text-black-700 hover:bg-gray-200 w-full sm:w-auto h-10"
+            className="px-2 py-2 border border-black-700 rounded-md bg-black-600 text-black-700 hover:bg-red-200 w-full sm:w-auto h-10"
           >
             <TiDeleteOutline />
           </button>
