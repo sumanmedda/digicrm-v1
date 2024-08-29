@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from "uuid";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-// Define the state type
 interface State {
   selectedCustomer: string | null;
   selectedProducts: { name: string; price: number; quantity: number }[];
@@ -18,10 +17,9 @@ interface State {
   notes: string;
   tax: number;
   signatureType: string;
-  uploadedSignatures: File[]; // Array to hold uploaded signatures
+  uploadedSignatures: File[];
 }
 
-// Define the action types
 type Action =
   | { type: "SET_FIELD"; field: keyof State; value: any }
   | { type: "ADD_PRODUCT"; product: { name: string; price: number } }
@@ -29,7 +27,6 @@ type Action =
   | { type: "UPDATE_PRODUCT_QTY"; productName: string; quantity: number }
   | { type: "UPLOAD_SIGNATURE"; signature: File };
 
-// Initialize the state
 const initialState: State = {
   selectedCustomer: null,
   selectedProducts: [],
@@ -38,18 +35,17 @@ const initialState: State = {
   status: "Pending",
   signature: null,
   notes: "",
-  tax: 18,  // Default tax percentage
+  tax: 18,
   signatureType: "",
   uploadedSignatures: [],
 };
 
-// Reducer function
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "SET_FIELD":
       return {
         ...state,
-        [action.field]: action.field === "tax" && action.value < 0 ? 0 : action.value
+        [action.field]: action.field === "tax" && action.value < 0 ? 0 : action.value,
       };
     case "ADD_PRODUCT":
       return state.selectedProducts.some(
@@ -91,12 +87,22 @@ const reducer = (state: State, action: Action): State => {
 
 const NewInvoiceBox = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { selectedCustomer, selectedProducts, dueDate, invoiceDate, status, signature, notes, tax, signatureType, uploadedSignatures } =
-    state;
+  const {
+    selectedCustomer,
+    selectedProducts,
+    dueDate,
+    invoiceDate,
+    status,
+    signature,
+    notes,
+    tax,
+    signatureType,
+    uploadedSignatures,
+  } = state;
 
   const customers = [
-    { name: "John Doe", address: "123 Main St, City, State, 12345" },
-    { name: "Jane Smith", address: "456 Oak Ave, City, State, 67890" },
+    { name: "John Doe", address: "123 Main St, City, State, 12345", gst: "GST12345" },
+    { name: "Jane Smith", address: "456 Oak Ave, City, State, 67890", gst: "GST67890" },
   ];
 
   const products = [
@@ -109,6 +115,9 @@ const NewInvoiceBox = () => {
     (total, product) => total + product.price * product.quantity,
     0
   );
+
+  const taxAmount = (totalAmount * tax) / 100;
+  const grandTotal = totalAmount + taxAmount;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -126,23 +135,16 @@ const NewInvoiceBox = () => {
 
     console.log(invoiceData);
 
-    // Generate PDF
     const input = document.getElementById("invoice-preview");
     if (input) {
       html2canvas(input).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
-
-        // Create a new jsPDF document
         const pdf = new jsPDF("p", "mm", "a4");
 
-        // Calculate the width and height for the image
-        const imgWidth = 210; // Width of A4 in mm
+        const imgWidth = 210;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        // Add the image to the PDF
         pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-
-        // Save the PDF
         pdf.save("invoice.pdf");
       });
     }
@@ -152,21 +154,18 @@ const NewInvoiceBox = () => {
     <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row w-full">
       {/* Left Side: Form */}
       <div className="w-full sm:w-3/10 p-4 bg-white shadow-md rounded-md">
-        {/* Customer Selection */}
+        <h2 className="text-lg font-bold mb-4">Invoice Details</h2>
+        
         <div className="mb-4">
-          <label className="block text-gray-700">Customer Name</label>
+          <label className="block text-sm font-medium mb-1">Customer</label>
           <select
             value={selectedCustomer || ""}
             onChange={(e) =>
-              dispatch({
-                type: "SET_FIELD",
-                field: "selectedCustomer",
-                value: e.target.value ? e.target.value : null,
-              })
+              dispatch({ type: "SET_FIELD", field: "selectedCustomer", value: e.target.value })
             }
-            className="border rounded-md p-2 w-full"
+            className="w-full p-2 border rounded-md"
           >
-            <option value="">Select Customer</option>
+            <option value="" disabled>Select Customer</option>
             {customers.map((customer) => (
               <option key={customer.name} value={customer.name}>
                 {customer.name}
@@ -175,103 +174,88 @@ const NewInvoiceBox = () => {
           </select>
         </div>
 
-        {/* Product Selection */}
         <div className="mb-4">
-          <label className="block text-gray-700">Products</label>
+          <label className="block text-sm font-medium mb-1">Products</label>
           <select
-            onChange={(e) =>
-              dispatch({
-                type: "ADD_PRODUCT",
-                product: products.find((p) => p.name === e.target.value)!,
-              })
-            }
-            className="border rounded-md p-2 w-full"
+            onChange={(e) => {
+              const selectedProduct = products.find(p => p.name === e.target.value);
+              if (selectedProduct) {
+                dispatch({ type: "ADD_PRODUCT", product: selectedProduct });
+              }
+            }}
+            className="w-full p-2 border rounded-md"
+            value=""
           >
-            <option value="">Select Product</option>
-            {products
-              .filter((product) => !selectedProducts.some((p) => p.name === product.name))
-              .map((product) => (
-                <option key={product.name} value={product.name}>
-                  {product.name}
-                </option>
-              ))}
+            <option value="" disabled>Select Product</option>
+            {products.map((product) => (
+              <option key={product.name} value={product.name}>
+                {product.name} - ${product.price}
+              </option>
+            ))}
           </select>
 
-          <div className="mt-2">
-            {selectedProducts.map((product) => (
-              <div
-                key={product.name}
-                className="flex justify-between items-center border rounded-md p-2 mt-2"
+          {/* List selected products with quantity and remove option */}
+          {selectedProducts.map((product, index) => (
+            <div key={index} className="flex items-center justify-between mt-2">
+              <span>{product.name}</span>
+              <input
+                type="number"
+                value={product.quantity}
+                onChange={(e) =>
+                  dispatch({
+                    type: "UPDATE_PRODUCT_QTY",
+                    productName: product.name,
+                    quantity: parseInt(e.target.value, 10),
+                  })
+                }
+                className="w-16 p-1 border rounded-md"
+                min={1}
+              />
+              <button
+                type="button"
+                onClick={() =>
+                  dispatch({ type: "REMOVE_PRODUCT", productName: product.name })
+                }
+                className="text-red-500"
               >
-                <span>{product.name} (Qty: {product.quantity})</span>
-                <input
-                  type="number"
-                  min="1"
-                  value={product.quantity}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "UPDATE_PRODUCT_QTY",
-                      productName: product.name,
-                      quantity: parseInt(e.target.value, 10),
-                    })
-                  }
-                  className="w-16 ml-4 border rounded-md p-1"
-                />
-                <button
-                  onClick={() => dispatch({ type: "REMOVE_PRODUCT", productName: product.name })}
-                  className="text-red-500 ml-4"
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-          </div>
+                Remove
+              </button>
+            </div>
+          ))}
         </div>
-
-        {/* Tax Percentage */}
+        
         <div className="mb-4">
-          <label className="block text-gray-700">Tax (%)</label>
-          <input
-            type="number"
-            value={tax}
-            onChange={(e) =>
-              dispatch({ type: "SET_FIELD", field: "tax", value: parseFloat(e.target.value) })
-            }
-            className="border rounded-md p-2 w-full"
-            min="0" // Prevents negative values
-          />
-        </div>
-
-        {/* Date Pickers */}
-        <div className="mb-4">
-          <label className="block text-gray-700">Due Date</label>
-          <DatePicker
-            selected={dueDate}
-            onChange={(date) => dispatch({ type: "SET_FIELD", field: "dueDate", value: date })}
-            className="border rounded-md p-2 w-full"
-            placeholderText="Select Due Date"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700">Invoice Date</label>
+          <label className="block text-sm font-medium mb-1">Invoice Date</label>
           <DatePicker
             selected={invoiceDate}
-            onChange={(date) => dispatch({ type: "SET_FIELD", field: "invoiceDate", value: date })}
-            className="border rounded-md p-2 w-full"
-            placeholderText="Select Invoice Date"
+            onChange={(date) =>
+              dispatch({ type: "SET_FIELD", field: "invoiceDate", value: date })
+            }
+            className="w-full p-2 border rounded-md"
+            dateFormat="yyyy-MM-dd"
           />
         </div>
-
-        {/* Status Selection */}
+        
         <div className="mb-4">
-          <label className="block text-gray-700">Status</label>
+          <label className="block text-sm font-medium mb-1">Due Date</label>
+          <DatePicker
+            selected={dueDate}
+            onChange={(date) =>
+              dispatch({ type: "SET_FIELD", field: "dueDate", value: date })
+            }
+            className="w-full p-2 border rounded-md"
+            dateFormat="yyyy-MM-dd"
+          />
+        </div>
+        
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Status</label>
           <select
             value={status}
             onChange={(e) =>
               dispatch({ type: "SET_FIELD", field: "status", value: e.target.value })
             }
-            className="border rounded-md p-2 w-full"
+            className="w-full p-2 border rounded-md"
           >
             <option value="Pending">Pending</option>
             <option value="Paid">Paid</option>
@@ -279,111 +263,133 @@ const NewInvoiceBox = () => {
           </select>
         </div>
 
-        {/* Signature Selection */}
         <div className="mb-4">
-          <label className="block text-gray-700">Signature Type</label>
+          <label className="block text-sm font-medium mb-1">Tax (%)</label>
+          <input
+            type="number"
+            value={tax}
+            onChange={(e) =>
+              dispatch({ type: "SET_FIELD", field: "tax", value: parseFloat(e.target.value) })
+            }
+            className="w-full p-2 border rounded-md"
+            min={0}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Signature</label>
           <select
             value={signatureType}
             onChange={(e) =>
-              dispatch({
-                type: "SET_FIELD",
-                field: "signatureType",
-                value: e.target.value,
-              })
+              dispatch({ type: "SET_FIELD", field: "signatureType", value: e.target.value })
             }
-            className="border rounded-md p-2 w-full"
+            className="w-full p-2 border rounded-md"
           >
-            <option value="">Select Signature Type</option>
-            <option value="uploaded">Choose from Uploaded Signatures</option>
-            <option value="new">Upload New Signature</option>
+            <option value="">Select Signature</option>
+            {uploadedSignatures.map((signature, index) => (
+              <option key={index} value={signature.name}>
+                {signature.name}
+              </option>
+            ))}
           </select>
         </div>
 
-        {signatureType === "uploaded" && (
-          <div className="mb-4">
-            <label className="block text-gray-700">Choose Signature</label>
-            <select
-              onChange={(e) =>
-                dispatch({
-                  type: "SET_FIELD",
-                  field: "signature",
-                  value: uploadedSignatures.find(
-                    (sig) => sig.name === e.target.value
-                  ),
-                })
-              }
-              className="border rounded-md p-2 w-full"
-            >
-              <option value="">Select Signature</option>
-              {uploadedSignatures.map((sig) => (
-                <option key={sig.name} value={sig.name}>
-                  {sig.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-
-        {signatureType === "new" && (
         <div className="mb-4">
-            <label className="block text-gray-700">Upload Signature</label>
-            <input
+          <label className="block text-sm font-medium mb-1">Upload Signature</label>
+          <input
             type="file"
             onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                dispatch({
-                    type: "UPLOAD_SIGNATURE",
-                    signature: file,
-                });
-                }
+              const file = e.target.files?.[0];
+              if (file) {
+                dispatch({ type: "UPLOAD_SIGNATURE", signature: file });
+              }
             }}
-            className="border rounded-md p-2 w-full"
-            />
+            className="w-full p-2 border rounded-md"
+          />
         </div>
-)}
 
-        {/* Notes */}
         <div className="mb-4">
-          <label className="block text-gray-700">Notes</label>
+          <label className="block text-sm font-medium mb-1">Notes</label>
           <textarea
             value={notes}
             onChange={(e) =>
               dispatch({ type: "SET_FIELD", field: "notes", value: e.target.value })
             }
-            className="border rounded-md p-2 w-full"
-            rows={3}
-            placeholder="Additional notes"
+            className="w-full p-2 border rounded-md"
+            rows={4}
           />
         </div>
 
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded-md w-full"
+          className="w-full py-2 bg-blue-600 text-white rounded-md"
         >
           Generate Invoice
         </button>
       </div>
 
       {/* Right Side: Invoice Preview */}
-      <div id="invoice-preview" className="w-full sm:w-7/10 p-4 bg-white shadow-md rounded-md">
-        {/* Invoice Preview Content */}
-        <h2 className="text-2xl font-bold mb-4">Invoice Preview</h2>
-        <p><strong>Customer:</strong> {selectedCustomer}</p>
-        <p><strong>Invoice Date:</strong> {invoiceDate?.toLocaleDateString()}</p>
-        <p><strong>Due Date:</strong> {dueDate?.toLocaleDateString()}</p>
-        <p><strong>Status:</strong> {status}</p>
-        <ul>
-          {selectedProducts.map((product) => (
-            <li key={product.name}>
-              {product.name} - {product.quantity} x ${product.price}
-            </li>
-          ))}
-        </ul>
-        <p><strong>Tax:</strong> {tax}%</p>
-        <p><strong>Total Amount:</strong> ${totalAmount}</p>
-        <p><strong>Notes:</strong> {notes}</p>
-        {signature && <p><strong>Signature:</strong> {signature.name}</p>}
+      <div
+        id="invoice-preview"
+        className="w-full sm:w-7/10 p-4 bg-white shadow-md rounded-md"
+      > 
+        <div className="mb-4">
+          <h1 className="text-3xl font-bold">#INVOICE</h1>
+          <img src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg" alt="Company Logo" className="w-12" />
+          <p>Company Name</p>
+          <p>Company Address</p>
+          <p>GST: Company GST</p>
+        </div>
+
+        <div className="flex justify-between mb-4">
+          <div>
+            <p className="font-bold">Billing to:</p>
+            <p>{selectedCustomer || "Customer Name"}</p>
+            <p>{selectedCustomer ? customers.find(c => c.name === selectedCustomer)?.address : "Customer Address"}</p>
+          </div>
+          <div className="text-right">
+            <p>Invoice ID: {uuidv4()}</p>
+            <p>Invoice Date: {invoiceDate ? invoiceDate.toLocaleDateString() : "Date"}</p>
+            <p>Due Date: {dueDate ? dueDate.toLocaleDateString() : "Date"}</p>
+          </div>
+        </div>
+
+        <table className="w-full mb-4">
+          <thead>
+            <tr>
+              <th className="border px-2 py-1">S.no</th>
+              <th className="border px-2 py-1">Products</th>
+              <th className="border px-2 py-1">Qty</th>
+              <th className="border px-2 py-1">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {selectedProducts.map((product, index) => (
+              <tr key={index}>
+                <td className="border px-2 py-1">{index + 1}</td>
+                <td className="border px-2 py-1">{product.name}</td>
+                <td className="border px-2 py-1">{product.quantity}</td>
+                <td className="border px-2 py-1">${product.price * product.quantity}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div className="text-right mb-4">
+          <p>Subtotal: ${totalAmount.toFixed(2)}</p>
+          <p>Tax ({tax}%): ${taxAmount.toFixed(2)}</p>
+          <p className="text-xl font-bold">Total: ${grandTotal.toFixed(2)}</p>
+        </div>
+
+        <div className="text-right mt-8">
+          <p>Authorized Signature:</p>
+          <p>{signatureType || "Signature"}</p>
+        </div>
+
+        <div className="mt-8">
+          <p>Notes:</p>
+          <p>{notes || "No additional notes."}</p>
+        </div>
       </div>
     </form>
   );
