@@ -7,26 +7,10 @@ import { useRouter } from "next/navigation";
 import { TiDeleteOutline } from "react-icons/ti";
 
 const initialInvoiceData = [
-  { invoiceId: "PRDT-001", sentTo: "John Doe", amount: "1,250", dueDate: "2024-09-15" },
-  { invoiceId: "PRDT-002", sentTo: "Jane Smith", amount: "2,450", dueDate: "2024-09-18" },
-  { invoiceId: "PRDT-003", sentTo: "Tom Johnson", amount: "3,550", dueDate: "2024-09-20" },
-  { invoiceId: "PRDT-004", sentTo: "Emily Davis", amount: "1,750", dueDate: "2024-09-22" },
-  { invoiceId: "PRDT-005", sentTo: "Michael Brown", amount: "4,350", dueDate: "2024-09-25" },
-  { invoiceId: "PRDT-006", sentTo: "Chris Wilson", amount: "5,650", dueDate: "2024-09-27" },
-  { invoiceId: "PRDT-007", sentTo: "Laura Miller", amount: "6,150", dueDate: "2024-09-30" },
-  { invoiceId: "PRDT-008", sentTo: "Kevin Garcia", amount: "7,250", dueDate: "2024-10-02" },
-  { invoiceId: "PRDT-009", sentTo: "Sarah Moore", amount: "8,350", dueDate: "2024-10-05" },
-  { invoiceId: "PRDT-010", sentTo: "Daniel Taylor", amount: "9,450", dueDate: "2024-10-08" },
-  { invoiceId: "PRDT-011", sentTo: "Sophia Martinez", amount: "2,550", dueDate: "2024-10-10" },
-  { invoiceId: "PRDT-012", sentTo: "James Anderson", amount: "1,650", dueDate: "2024-10-12" },
-  { invoiceId: "PRDT-013", sentTo: "Olivia Thomas", amount: "3,750", dueDate: "2024-10-15" },
-  { invoiceId: "PRDT-014", sentTo: "Jacob Lee", amount: "4,850", dueDate: "2024-10-18" },
-  { invoiceId: "PRDT-015", sentTo: "Ava Hernandez", amount: "5,950", dueDate: "2024-10-20" },
-  { invoiceId: "PRDT-016", sentTo: "Mason Lewis", amount: "6,250", dueDate: "2024-10-23" },
-  { invoiceId: "PRDT-017", sentTo: "Mia Walker", amount: "7,350", dueDate: "2024-10-25" },
-  { invoiceId: "PRDT-018", sentTo: "Elijah Hall", amount: "8,450", dueDate: "2024-10-27" },
-  { invoiceId: "PRDT-019", sentTo: "Lucas Young", amount: "9,550", dueDate: "2024-10-30" },
-  { invoiceId: "PRDT-020", sentTo: "Amelia King", amount: "1,850", dueDate: "2024-11-02" },
+  { invoiceId: "PRDT-001", sentTo: "John Doe", amount: "1,250", qty: 5, dueDate: "2024-09-15" },
+  { invoiceId: "PRDT-002", sentTo: "Jane Smith", amount: "2,450", qty: 10, dueDate: "2024-09-18" },
+  { invoiceId: "PRDT-003", sentTo: "Tom Johnson", amount: "3,550", qty: 8, dueDate: "2024-09-20" },
+  // Add more products here...
 ];
 
 const ProductsBox = () => {
@@ -123,7 +107,7 @@ const ProductsBox = () => {
 
       {/* Invoices Table */}
       <div className="overflow-x-auto">
-        <div className="min-w-[500px] grid grid-cols-4">
+        <div className="min-w-[600px] grid grid-cols-5">
           <div className="px-2 pb-3.5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
               Product ID
@@ -141,6 +125,11 @@ const ProductsBox = () => {
           </div>
           <div className="px-2 pb-3.5 text-center">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Qty
+            </h5>
+          </div>
+          <div className="px-2 pb-3.5 text-center">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
               Action
             </h5>
           </div>
@@ -148,7 +137,7 @@ const ProductsBox = () => {
 
         {paginatedInvoices.map((invoice) => (
           <div
-            className={`grid min-w-[500px] grid-cols-4 border-b border-stroke dark:border-dark-3`}
+            className={`grid min-w-[600px] grid-cols-5 border-b border-stroke dark:border-dark-3`}
             key={invoice.invoiceId}
           >
             <div className="flex items-center gap-3.5 px-2 py-4">
@@ -166,6 +155,12 @@ const ProductsBox = () => {
             <div className="flex items-center justify-center px-2 py-4">
               <p className="font-medium text-dark dark:text-white">
                 ${invoice.amount}
+              </p>
+            </div>
+
+            <div className="flex items-center justify-center px-2 py-4">
+              <p className="font-medium text-dark dark:text-white">
+                {invoice.qty}
               </p>
             </div>
 
