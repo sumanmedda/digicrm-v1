@@ -74,7 +74,7 @@ const InvoiceBox = () => {
   };
 
   const handleAddProduct = () => {
-    router.push("/pages/newproduct");
+    router.push("/pages/newInvoice");
   };
 
   return (
