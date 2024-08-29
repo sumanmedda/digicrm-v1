@@ -60,7 +60,7 @@ const TransactionBox = () => {
       {/* Add Transaction Button */}
       <div className="mb-5.5">
         <button
-          onClick={() => router.push("/transactions/new")}
+          onClick={() => router.push("/pages/newproduct")}
           className="px-4 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 w-full sm:w-auto"
         >
           Add Transaction
