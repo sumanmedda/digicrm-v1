@@ -58,14 +58,14 @@ const TransactionBox = () => {
     <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
 
       {/* Add Transaction Button */}
-      <div className="mb-5.5">
+      {/* <div className="mb-5.5">
         <button
           onClick={() => router.push("/pages/newproduct")}
           className="px-4 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 w-full sm:w-auto"
         >
           Add Transaction
         </button>
-      </div>
+      </div> */}
 
       {/* Date Pickers and Search */}
       <div className="flex flex-col sm:flex-row justify-between mb-5.5">
