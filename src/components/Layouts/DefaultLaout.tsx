@@ -2,19 +2,24 @@
 import React, { useState, ReactNode } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
+import SidebarColapsed from "../Sidebar/SidebarColapsed";
 
 export default function DefaultLayout({
   children,
 }: {
   children: React.ReactNode;
+  
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarFlip, setSidebarFlip] = useState(true);
+
+  
   return (
     <>
       {/* <!-- ===== Page Wrapper Star ===== --> */}
       <div className="flex h-screen overflow-hidden">
         {/* <!-- ===== Sidebar Star ===== --> */}
-        {/* <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         {/* <!-- ===== Sidebar End ===== --> */}
 
         {/* <!-- ===== Content Area Star ===== --> */}

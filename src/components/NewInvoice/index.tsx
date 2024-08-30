@@ -4,8 +4,7 @@ import React, { useReducer } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+
 
 interface State {
   selectedCustomer: string | null;
@@ -134,20 +133,6 @@ const NewInvoiceBox = () => {
     };
 
     console.log(invoiceData);
-
-    const input = document.getElementById("invoice-preview");
-    if (input) {
-      html2canvas(input).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
-
-        const imgWidth = 210;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-        pdf.save("invoice.pdf");
-      });
-    }
   };
 
   return (
@@ -349,7 +334,7 @@ const NewInvoiceBox = () => {
             <div>
                 <p className="font-bold">Billing to:</p>
                 <p>{selectedCustomer || "Customer Name"}</p>
-                <p>{selectedCustomer ? customers.find(c => c.name === selectedCustomer)?.address : "Customer Address"}</p>
+                <p className="pb-7">{selectedCustomer ? customers.find(c => c.name === selectedCustomer)?.address : "Customer Address"}</p>
             </div>
         </div>
 
