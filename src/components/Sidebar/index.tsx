@@ -236,7 +236,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
-      {!isCollapsed ?
+      {isCollapsed ?
       <div>
         <aside
             className={`absolute left-0 top-0 z-9999 flex h-screen flex-col overflow-y-hidden border-r border-stroke bg-white dark:border-stroke-dark dark:bg-gray-dark lg:static lg:translate-x-0 ${
@@ -271,7 +271,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   />
                 </Link>
               </div>
-              <div>
+              <div className="designFlipBtn">
                 <button className="hideSideBtn" onClick={handleColapseSidebar}><FaChevronRight /></button>
               </div>
             </div>
@@ -358,7 +358,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   />
                 </Link>
               </div>
-              <div>
+              <div className="designFlipBtn">
                 <button className="hideSideBtn" onClick={handleColapseSidebar}><FaChevronLeft /></button>
               </div>
             </div>
