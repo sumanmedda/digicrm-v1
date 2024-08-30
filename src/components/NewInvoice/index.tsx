@@ -335,24 +335,28 @@ const NewInvoiceBox = () => {
         id="invoice-preview"
         className="w-full sm:w-7/10 p-4 bg-white shadow-md rounded-md"
       > 
-        <div className="mb-4">
-          <h1 className="text-3xl font-bold">#INVOICE</h1>
-          <img src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg" alt="Company Logo" className="w-12" />
-          <p>Company Name</p>
-          <p>Company Address</p>
-          <p>GST: Company GST</p>
+        <div className="mb-4 custom-invoice-frombill">
+            <div>
+                <img src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg" alt="Company Logo" className="w-22" />
+                <h1 className="text-3xl font-bold">INVOICE - INV001</h1>
+                <div className="pt-12">
+                    <p className="font-bold">From:</p>
+                    <p>Company Name</p>
+                    <p>Company Address</p>
+                    <p>GST: Company GST</p>
+                </div>
+            </div>
+            <div>
+                <p className="font-bold">Billing to:</p>
+                <p>{selectedCustomer || "Customer Name"}</p>
+                <p>{selectedCustomer ? customers.find(c => c.name === selectedCustomer)?.address : "Customer Address"}</p>
+            </div>
         </div>
 
-        <div className="flex justify-between mb-4">
-          <div>
-            <p className="font-bold">Billing to:</p>
-            <p>{selectedCustomer || "Customer Name"}</p>
-            <p>{selectedCustomer ? customers.find(c => c.name === selectedCustomer)?.address : "Customer Address"}</p>
-          </div>
-          <div className="text-right">
-            <p>Invoice ID: {uuidv4()}</p>
-            <p>Invoice Date: {invoiceDate ? invoiceDate.toLocaleDateString() : "Date"}</p>
-            <p>Due Date: {dueDate ? dueDate.toLocaleDateString() : "Date"}</p>
+        <div className="text-right flex justify-between mb-4">
+          <div className="">
+            <p className="text-lg"><span className="font-bold">Invoice Date:</span> {invoiceDate ? invoiceDate.toLocaleDateString() : "Date"}</p>
+            <p className="text-lg pb-10"><span className="font-bold">Due Date:</span> {dueDate ? dueDate.toLocaleDateString() : "Date"}</p>
           </div>
         </div>
 
@@ -368,16 +372,16 @@ const NewInvoiceBox = () => {
           <tbody>
             {selectedProducts.map((product, index) => (
               <tr key={index}>
-                <td className="border px-2 py-1">{index + 1}</td>
-                <td className="border px-2 py-1">{product.name}</td>
-                <td className="border px-2 py-1">{product.quantity}</td>
-                <td className="border px-2 py-1">${product.price * product.quantity}</td>
+                <td className="border px-2 py-1 text-center">{index + 1}</td>
+                <td className="border px-2 py-1 text-center">{product.name}</td>
+                <td className="border px-2 py-1 text-center">{product.quantity}</td>
+                <td className="border px-2 py-1 text-center">${product.price * product.quantity}</td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        <div className="text-right mb-4">
+        <div className="text-right mb-4 pt-21">
           <p>Subtotal: ${totalAmount.toFixed(2)}</p>
           <p>Tax ({tax}%): ${taxAmount.toFixed(2)}</p>
           <p className="text-xl font-bold">Total: ${grandTotal.toFixed(2)}</p>
