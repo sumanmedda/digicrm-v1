@@ -358,7 +358,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   />
                 </Link>
               </div>
-              <div className="designFlipBtn">
+              <div className={`designFlipBtn ${isCollapsed ? 'ml-0' : 'ml-32'}`}>
                 <button className="hideSideBtn" onClick={handleColapseSidebar}><FaChevronLeft /></button>
               </div>
             </div>
