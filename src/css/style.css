@@ -468,7 +468,7 @@ input[type="search"]::-webkit-search-cancel-button {
 .custom-invoice-frombill{
     display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: flex-end;
 }
 
 #invoice-preview{
@@ -489,6 +489,15 @@ input[type="search"]::-webkit-search-cancel-button {
     align-items: center;
     display: flex;
     justify-content: center;
+}
+
+.custom-amount-qty-box{
+    border: 1px solid gray;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 6px;
+    padding-top: 6px;
+    border-radius: 5px;
 }
 
 @media (max-width: 1023px){
