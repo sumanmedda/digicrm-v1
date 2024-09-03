@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 import { TiDeleteOutline } from "react-icons/ti";
 
 const initialInvoiceData = [
-  { invoiceId: "PRDT-001", sentTo: "John Doe", amount: "1,250", qty: 5, dueDate: "2024-09-15" },
-  { invoiceId: "PRDT-002", sentTo: "Jane Smith", amount: "2,450", qty: 10, dueDate: "2024-09-18" },
-  { invoiceId: "PRDT-003", sentTo: "Tom Johnson", amount: "3,550", qty: 8, dueDate: "2024-09-20" },
+  { invoiceId: "PRDT-001", sentTo: "Chemical-1", amount: "1,250", qty: 5, dueDate: "2024-09-15" },
+  { invoiceId: "PRDT-002", sentTo: "Chemical-2", amount: "2,450", qty: 10, dueDate: "2024-09-18" },
+  { invoiceId: "PRDT-003", sentTo: "Chemical-3", amount: "3,550", qty: 8, dueDate: "2024-09-20" },
   // Add more products here...
 ];
 
@@ -164,7 +164,7 @@ const ProductsBox = () => {
               onClick={() => handleFieldClick(invoice)}
             >
               <p className="custom-amount-qty-box font-medium text-dark dark:text-white">
-                ${invoice.amount}
+              ₹{invoice.amount}
               </p>
             </div>
 

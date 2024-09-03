@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import React, { useReducer } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -145,9 +146,12 @@ const NewInvoiceBox = () => {
         {/* Customer and Billing */}
         <div className="mb-4 custom-invoice-frombill">
           <div>
-            <img
-              src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg"
+            <Image
+              // src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg"
+              src={"/images/logo.svg"}
               alt="Company Logo"
+              width={100}
+              height={100}
               className="w-22"
             />
             <h1 className="text-3xl font-bold">INVOICE - INV001</h1>
@@ -261,7 +265,7 @@ const NewInvoiceBox = () => {
                   />
                 </td>
                 <td className="border px-2 py-1 text-center">
-                  ${product.price * product.quantity}
+                ₹{product.price * product.quantity}
                 </td>
               </tr>
             ))}
@@ -269,19 +273,19 @@ const NewInvoiceBox = () => {
         </table>
 
         {/* Subtotal, Tax, and Total (Centered in an Invisible Table) */}
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-4 pt-22">
           <table className="text-center">
             <tbody>
               <tr className="invisible">
                 <td className="p-2">Invisible</td>
               </tr>
               <tr>
-                <td className="p-2">Subtotal:</td>
-                <td className="p-2">${totalAmount.toFixed(2)}</td>
+                <td className="p-1">Subtotal:</td>
+                <td className="p-1">₹{totalAmount.toFixed(2)}</td>
               </tr>
               <tr>
-                <td className="p-2">Tax (%):</td>
-                <td className="p-2">
+                <td className="p-1">Tax (%):</td>
+                <td className="p-1">
                   <input
                     type="number"
                     value={tax}
@@ -297,12 +301,12 @@ const NewInvoiceBox = () => {
                 </td>
               </tr>
               <tr>
-                <td className="p-2">Tax Amount:</td>
-                <td className="p-2">${taxAmount.toFixed(2)}</td>
+                <td className="p-1">Tax Amount:</td>
+                <td className="p-1">₹{taxAmount.toFixed(2)}</td>
               </tr>
               <tr>
                 <td className="text-lg font-bold p-1">Total:</td>
-                <td className="text-lg font-bold p-1">${grandTotal.toFixed(2)}</td>
+                <td className="text-lg font-bold p-1">₹{grandTotal.toFixed(2)}</td>
               </tr>
             </tbody>
           </table>

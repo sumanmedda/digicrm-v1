@@ -145,7 +145,7 @@ const TransactionBox = () => {
               <p className="font-medium text-dark dark:text-white">{transaction.customer}</p>
             </div>
             <div className="flex items-center justify-center px-2 py-4">
-              <p className="font-medium text-green-light-1">${transaction.amount}</p>
+              <p className="font-medium text-green-light-1">₹{transaction.amount}</p>
             </div>
             <div className="flex items-center justify-center px-2 py-4">
               <p className="font-medium text-dark dark:text-white">{transaction.billingDate}</p>
