@@ -500,6 +500,11 @@ input[type="search"]::-webkit-search-cancel-button {
     border-radius: 5px;
 }
 
+
+.custom-billing-from-to {
+    
+}
+
 @media (max-width: 1023px){
     .hideSideBtn{
         visibility: hidden;
