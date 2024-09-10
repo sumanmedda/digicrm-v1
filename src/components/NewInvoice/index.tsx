@@ -1,10 +1,11 @@
-'use client';
+"use client"
 
 import Image from "next/image";
 import React, { useReducer } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
+import  handleSendMail  from "./mailerFunc"
 
 interface State {
   selectedCustomer: string | null;
@@ -135,6 +136,10 @@ const NewInvoiceBox = () => {
 
     console.log(invoiceData);
   };
+
+  function handlePreview(){}
+  
+  
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row w-full">
@@ -342,6 +347,25 @@ const NewInvoiceBox = () => {
             className="w-full p-2 border rounded-md"
           />
         </div>
+
+         {/* Preview and Send Invoice Buttons */}
+         <div className="flex justify-between mt-8">
+          <button
+            type="button"
+            onClick={handlePreview}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600"
+          >
+            Preview Invoice
+          </button>
+          <button
+            type="button"
+            onClick={() => handleSendMail("mailer mails")}
+            className="bg-green-500 text-white px-4 py-2 rounded-md shadow hover:bg-green-600"
+          >
+            Send Invoice
+          </button>
+        </div>
+
       </div>
     </form>
   );
