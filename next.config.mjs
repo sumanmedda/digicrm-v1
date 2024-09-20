@@ -10,6 +10,11 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "d1oco4z2z1fhwp.cloudfront.net",
+        port: ""
+      },
+      {
+        protocol: "https",
         hostname: "lh3.googleusercontent.com",
         port: ""
       },
