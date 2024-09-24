@@ -72,10 +72,10 @@ const InvoiceBox = () => {
     currentPage * itemsPerPage
   );
 
-  // router.push("/pages/newInvoice");
 
   const handleAddProduct = () => {
     setStartLoader(true);
+    router.push("/pages/newInvoice");
     setTimeout(() => {
       setStartLoader(false);
     }, 4000);
