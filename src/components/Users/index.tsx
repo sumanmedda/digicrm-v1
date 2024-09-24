@@ -5,56 +5,58 @@ import { useRouter } from "next/navigation";
 import { TiDeleteOutline } from "react-icons/ti";
 import { FiCopy } from "react-icons/fi";
 
-const initialCustomerData = [
-  { customerId: "CSTR-001", name: "John Doe", email: "john.doe@example.com", phone: "+1234567890" },
-  { customerId: "CSTR-002", name: "Jane Smith", email: "jane.smith@example.com", phone: "+0987654321" },
-  { customerId: "CSTR-003", name: "Tom Johnson", email: "tom.johnson@example.com", phone: "+1122334455" },
-  { customerId: "CSTR-004", name: "Emily Davis", email: "emily.davis@example.com", phone: "+2233445566" },
-  { customerId: "CSTR-005", name: "Michael Brown", email: "michael.brown@example.com", phone: "+3344556677" },
-];
+const initialUserData = [
+  { UserId: "USR-001", name: "John Doe", email: "john.doe@example.com", phone: "+1234567890", role: "Admin" },
+  { UserId: "USR-002", name: "Jane Smith", email: "jane.smith@example.com", phone: "+0987654321", role: "User" },
+  { UserId: "USR-003", name: "Tom Johnson", email: "tom.johnson@example.com", phone: "+1122334455", role: "Editor" },
+  { UserId: "USR-004", name: "Emily Davis", email: "emily.davis@example.com", phone: "+2233445566", role: "Admin" },
+  { UserId: "USR-005", name: "James Grace", email: "james.grace@example.com", phone: "+7648574633", role: "User" },
+  { UserId: "USR-006", name: "Klam Cris", email: "klam.cris@example.com", phone: "+5563847648", role: "Super Admin" },
+  { UserId: "USR-007", name: "Nathen Jack", email: "nathen.jack@example.com", phone: "+99826357378", role: "User" },
+]
 
-const CustomerBox = () => {
+const UserBox = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [customers, setCustomers] = useState(initialCustomerData);
+  const [Users, setUsers] = useState(initialUserData);
   const itemsPerPage = 5;
 
-  const handleDelete = (customerId: string) => {
-    const updatedCustomers = customers.filter(customer => customer.customerId !== customerId);
-    setCustomers(updatedCustomers);
+  const handleDelete = (UserId: string) => {
+    const updatedUsers = Users.filter(User => User.UserId !== UserId);
+    setUsers(updatedUsers);
   };
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
   };
 
-  const filteredCustomers = customers.filter((customer) =>
-    customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.phone.includes(searchTerm)
+  const filteredUsers = Users.filter((User) =>
+    User.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    User.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    User.phone.includes(searchTerm)
   );
 
-  const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
-  const paginatedCustomers = filteredCustomers.slice(
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const paginatedUsers = filteredUsers.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  const handleRowClick = (customerId: string) => {
-    router.push(`/pages/customer/${customerId}`);
+  const handleRowClick = (UserId: string) => {
+    router.push(`/pages/users/${UserId}`);
   };
 
   return (
     <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
       
-      {/* Add Customer Button */}
+      {/* Add User Button */}
       <div className="mb-5.5">
         <button
-          onClick={() => router.push("/pages/newcustomer")}
+          onClick={() => router.push("/pages/newuser")}
           className="px-4 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 w-full sm:w-auto"
         >
-          Add Customer
+          Add User
         </button>
       </div>
 
@@ -69,12 +71,12 @@ const CustomerBox = () => {
         />
       </div>
 
-      {/* Customers Table */}
+      {/* Users Table */}
       <div className="overflow-x-auto">
-        <div className="hidden sm:grid sm:grid-cols-4">
+        <div className="hidden sm:grid sm:grid-cols-5">
           <div className="px-2 pb-3.5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Customer Name
+              User Name
             </h5>
           </div>
           <div className="px-2 pb-3.5 text-center">
@@ -89,31 +91,36 @@ const CustomerBox = () => {
           </div>
           <div className="px-2 pb-3.5 text-center">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Role
+            </h5>
+          </div>
+          <div className="px-2 pb-3.5 text-center">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
               Action
             </h5>
           </div>
         </div>
 
-        {paginatedCustomers.map((customer) => (
+        {paginatedUsers.map((User) => (
           <div
-            className="grid grid-cols-1 sm:grid-cols-4 sm:gap-0 gap-y-2 border-b border-stroke dark:border-dark-3 cursor-pointer sm:min-w-[500px] min-w-full"
-            key={customer.customerId}
-            onClick={() => handleRowClick(customer.customerId)}
+            className="grid grid-cols-1 sm:grid-cols-5 sm:gap-0 gap-y-2 border-b border-stroke dark:border-dark-3 cursor-pointer sm:min-w-[500px] min-w-full"
+            key={User.UserId}
+            onClick={() => handleRowClick(User.UserId)}
           >
             <div className="flex items-center gap-3.5 px-2 py-4">
               <p className="font-medium text-dark dark:text-white sm:text-left text-center w-full sm:w-auto">
-                {customer.name}
+                {User.name}
               </p>
             </div>
 
             <div className="flex items-center justify-between px-2 py-4 sm:justify-center sm:col-span-1">
               <p className="font-medium text-dark dark:text-white text-center sm:text-left">
-                {customer.email}
+                {User.email}
               </p>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleCopy(customer.email);
+                  handleCopy(User.email);
                 }}
                 className="ml-2 text-gray-500 hover:text-gray-700"
               >
@@ -123,24 +130,31 @@ const CustomerBox = () => {
 
             <div className="flex items-center justify-between px-2 py-4 sm:justify-center sm:col-span-1">
               <p className="font-medium text-dark dark:text-white text-center sm:text-left">
-                {customer.phone}
+                {User.phone}
               </p>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleCopy(customer.phone);
+                  handleCopy(User.phone);
                 }}
                 className="ml-2 text-gray-500 hover:text-gray-700"
               >
                 <FiCopy />
               </button>
+            </div>
+
+            {/* Role column */}
+            <div className="flex items-center justify-center px-2 py-4 sm:justify-center sm:col-span-1">
+              <p className="font-medium text-dark dark:text-white text-center sm:text-left">
+                {User.role}
+              </p>
             </div>
 
             <div className="flex items-center justify-center px-2 py-4 sm:justify-center sm:col-span-1">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleDelete(customer.customerId);
+                  handleDelete(User.UserId);
                 }}
                 className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 w-full sm:w-auto text-center"
               >
@@ -177,4 +191,4 @@ const CustomerBox = () => {
   );
 };
 
-export default CustomerBox;
+export default UserBox;

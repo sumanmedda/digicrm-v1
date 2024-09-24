@@ -7,6 +7,7 @@ const ChartOne = dynamic(() => import('../Charts/ChartOne'), { ssr: false });
 import TableOne from "../Tables/TableOne";
 import DataStatsOne from "@/components/DataStats/DataStatsOne";
 import Signin from "@/components/Auth/Signin";
+import TransactionBox from "../Transactions";
 
 const ECommerce: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);;
@@ -27,7 +28,8 @@ const ECommerce: React.FC = () => {
           <ChartOne />
           <ChartTwo />
           <div className="col-span-12 xl:col-span-12">
-            <TableOne />
+            {/* <TableOne /> */}
+            <TransactionBox />
           </div>
         </div>
       </>
