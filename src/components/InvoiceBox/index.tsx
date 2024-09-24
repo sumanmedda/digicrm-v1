@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/navigation";
 import { TiDeleteOutline } from "react-icons/ti";
+import CustomLoader from "../CustomLoader";
 
 const initialInvoiceData = [
   { invoiceId: "INV-001", sentTo: "John Doe", amount: "1,250", dueDate: "2024-09-15", status: "Paid" },
@@ -26,6 +27,7 @@ const InvoiceBox = () => {
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [startLoader, setStartLoader] = useState(false);
   const [invoices, setInvoices] = useState(initialInvoiceData);
   const [selectedTab, setSelectedTab] = useState("All");
   const itemsPerPage = 5;
@@ -70,8 +72,13 @@ const InvoiceBox = () => {
     currentPage * itemsPerPage
   );
 
+  // router.push("/pages/newInvoice");
+
   const handleAddProduct = () => {
-    router.push("/pages/newInvoice");
+    setStartLoader(true);
+    setTimeout(() => {
+      setStartLoader(false);
+    }, 4000);
   };
 
   return (
@@ -83,7 +90,7 @@ const InvoiceBox = () => {
           onClick={handleAddProduct}
           className="px-4 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 w-full sm:w-auto"
         >
-          Add Invoice
+          {!startLoader?"Add Invoice" :<CustomLoader />} 
         </button>
       </div>
 
