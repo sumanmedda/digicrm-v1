@@ -12,21 +12,12 @@ const initialInvoiceData = [
   { invoiceId: "INV-003", sentTo: "Tom Johnson", amount: "3,550", dueDate: "2024-09-20", status: "Overdue" },
   { invoiceId: "INV-004", sentTo: "Emily Davis", amount: "1,750", dueDate: "2024-09-22", status: "Paid" },
   { invoiceId: "INV-005", sentTo: "Michael Brown", amount: "4,350", dueDate: "2024-09-25", status: "Pending" },
-  { invoiceId: "INV-006", sentTo: "Chris Wilson", amount: "5,650", dueDate: "2024-09-27", status: "Overdue" },
+  { invoiceId: "INV-006", sentTo: "Chris Wilson", amount: "5,650", dueDate: "2024-10-01", status: "Upcoming" },
   { invoiceId: "INV-007", sentTo: "Laura Miller", amount: "6,150", dueDate: "2024-09-30", status: "Paid" },
-  { invoiceId: "INV-008", sentTo: "Kevin Garcia", amount: "7,250", dueDate: "2024-10-02", status: "Pending" },
+  { invoiceId: "INV-008", sentTo: "Kevin Garcia", amount: "7,250", dueDate: "2024-10-02", status: "Upcoming" },
   { invoiceId: "INV-009", sentTo: "Sarah Moore", amount: "8,350", dueDate: "2024-10-05", status: "Overdue" },
   { invoiceId: "INV-010", sentTo: "Daniel Taylor", amount: "9,450", dueDate: "2024-10-08", status: "Paid" },
-  { invoiceId: "INV-011", sentTo: "Sophia Martinez", amount: "2,550", dueDate: "2024-10-10", status: "Pending" },
-  { invoiceId: "INV-012", sentTo: "James Anderson", amount: "1,650", dueDate: "2024-10-12", status: "Overdue" },
-  { invoiceId: "INV-013", sentTo: "Olivia Thomas", amount: "3,750", dueDate: "2024-10-15", status: "Paid" },
-  { invoiceId: "INV-014", sentTo: "Jacob Lee", amount: "4,850", dueDate: "2024-10-18", status: "Pending" },
-  { invoiceId: "INV-015", sentTo: "Ava Hernandez", amount: "5,950", dueDate: "2024-10-20", status: "Overdue" },
-  { invoiceId: "INV-016", sentTo: "Mason Lewis", amount: "6,250", dueDate: "2024-10-23", status: "Paid" },
-  { invoiceId: "INV-017", sentTo: "Mia Walker", amount: "7,350", dueDate: "2024-10-25", status: "Pending" },
-  { invoiceId: "INV-018", sentTo: "Elijah Hall", amount: "8,450", dueDate: "2024-10-27", status: "Overdue" },
-  { invoiceId: "INV-019", sentTo: "Lucas Young", amount: "9,550", dueDate: "2024-10-30", status: "Paid" },
-  { invoiceId: "INV-020", sentTo: "Amelia King", amount: "1,850", dueDate: "2024-11-02", status: "Pending" },
+  { invoiceId: "INV-011", sentTo: "Sophia Martinez", amount: "2,550", dueDate: "2024-09-28", status: "Pending" },
 ];
 
 const InvoiceBox = () => {
@@ -36,6 +27,7 @@ const InvoiceBox = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [invoices, setInvoices] = useState(initialInvoiceData);
+  const [selectedTab, setSelectedTab] = useState("All");
   const itemsPerPage = 5;
 
   const handleDateClear = () => {
@@ -50,28 +42,33 @@ const InvoiceBox = () => {
     setInvoices(updatedInvoices);
   };
 
-  const filteredInvoices = invoices.filter((invoice) => {
-    const isWithinDateRange =
-      (!startDate || new Date(invoice.dueDate) >= startDate) &&
-      (!endDate || new Date(invoice.dueDate) <= endDate);
-  
-    const matchesSearchTerm =
-      invoice.invoiceId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.sentTo.toLowerCase().includes(searchTerm.toLowerCase());
-  
-    return isWithinDateRange && matchesSearchTerm;
-  });
+  const filterByTab = (invoice: any) => {
+    if (selectedTab === "All") return true;
+    if (selectedTab === "Upcoming") return invoice.status === "Upcoming";
+    if (selectedTab === "Overdue") return invoice.status === "Overdue";
+    if (selectedTab === "Paid") return invoice.status === "Paid";
+    return true;
+  };
+
+  const filteredInvoices = invoices
+    .filter(filterByTab)
+    .filter((invoice) => {
+      const isWithinDateRange =
+        (!startDate || new Date(invoice.dueDate) >= startDate) &&
+        (!endDate || new Date(invoice.dueDate) <= endDate);
+
+      const matchesSearchTerm =
+        invoice.invoiceId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        invoice.sentTo.toLowerCase().includes(searchTerm.toLowerCase());
+
+      return isWithinDateRange && matchesSearchTerm;
+    });
 
   const totalPages = Math.ceil(filteredInvoices.length / itemsPerPage);
   const paginatedInvoices = filteredInvoices.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-  const isOverdue = (dueDate: string) => {
-    const currentDate = new Date();
-    return new Date(dueDate) < currentDate;
-  };
 
   const handleAddProduct = () => {
     router.push("/pages/newInvoice");
@@ -90,6 +87,23 @@ const InvoiceBox = () => {
         </button>
       </div>
 
+      {/* Tabs */}
+      <div className="flex justify-between w-full mb-5.5">
+        {["All", "Upcoming", "Overdue", "Paid"].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setSelectedTab(tab)}
+            className={`w-full px-4 py-2 text-center border-b-2 ${
+              selectedTab === tab
+                ? "bg-green-500 text-white"
+                : "border-transparent text-gray-500 hover:border-gray-300"
+            }`}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
       {/* Date Pickers and Search */}
       <div className="flex flex-col sm:flex-row justify-between mb-5.5">
         <div className="flex flex-col sm:flex-row items-center mb-4 sm:mb-0 w-full">
@@ -101,7 +115,7 @@ const InvoiceBox = () => {
             endDate={endDate}
             placeholderText="Start Date"
             dateFormat={"yyyy-MM-dd"}
-            className=" border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 sm:mr-2 w-full"
+            className="border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 sm:mr-2 w-full"
           />
           <DatePicker
             selected={endDate}
@@ -172,65 +186,60 @@ const InvoiceBox = () => {
                 {invoice.invoiceId}
               </p>
             </div>
-
-            <div className="flex items-center justify-center px-2 py-4">
-              <p className="font-medium text-dark dark:text-white">
+            <div className="flex items-center justify-center px-2 py-4 text-center">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 {invoice.sentTo}
               </p>
             </div>
-
-            <div className="flex items-center justify-center px-2 py-4">
-              <p className="font-medium text-green-light-1">
-              ₹{invoice.amount}
-              </p>
+            <div className="flex items-center justify-center px-2 py-4 text-center">
+              <p className="font-medium text-green-500">${invoice.amount}</p>
             </div>
-
-            <div className="flex items-center justify-center px-2 py-4">
-              <p className={`font-medium ${isOverdue(invoice.dueDate) ? "text-red-500" : ""}`}>
+            <div className="flex items-center justify-center px-2 py-4 text-center">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 {invoice.dueDate}
               </p>
             </div>
-
-            <div className="flex items-center justify-center px-2 py-4">
+            <div className="flex items-center justify-center px-2 py-4 text-center">
               <select
                 value={invoice.status}
-                onChange={(e) => handleStatusChange(invoice.invoiceId, e.target.value)}
-                className={`font-medium px-2 py-2 rounded-md shadow ${
+                onChange={(e) =>
+                  handleStatusChange(invoice.invoiceId, e.target.value)
+                }
+                className={`inline-block rounded-full px-4 py-1.5 text-sm font-medium capitalize ${
                   invoice.status === "Paid"
-                    ? "text-green-500"
+                    ? "bg-green-100 text-green-500"
                     : invoice.status === "Overdue"
-                    ? "text-red-500"
-                    : "text-yellow-500"
+                    ? "bg-red-100 text-red-500"
+                    : invoice.status === "Upcoming"
+                    ? "bg-yellow-100 text-yellow-500"
+                    : "bg-gray-100 text-gray-500"
                 }`}
               >
-                <option value="Paid" className="text-green-500">Paid</option>
-                <option value="Pending" className="text-yellow-500">Pending</option>
-                <option value="Overdue" className="text-red-500">Overdue</option>
+                <option value="Paid">Paid</option>
+                <option value="Overdue">Overdue</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Pending">Pending</option>
               </select>
             </div>
           </div>
         ))}
-      </div>
 
-      {/* Pagination */}
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-          className="px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200"
-        >
-          Previous
-        </button>
-        <p className="text-sm text-gray-700 dark:text-white">
-          Page {currentPage} of {totalPages}
-        </p>
-        <button
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200"
-        >
-          Next
-        </button>
+        {/* Pagination */}
+        <div className="mt-4 flex items-center justify-center space-x-4">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => setCurrentPage(index + 1)}
+              className={`h-10 w-10 rounded-full border border-gray-300 ${
+                currentPage === index + 1
+                  ? "bg-green-500 text-white"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

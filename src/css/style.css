@@ -10,18 +10,20 @@
     }
 }
 
-@layer components {
-}
+@layer components {}
 
 @layer utilities {
+
     /* Chrome, Safari and Opera */
     .no-scrollbar::-webkit-scrollbar {
         display: none;
     }
 
     .no-scrollbar {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
     }
 
     .chat-height {
@@ -35,20 +37,20 @@
 
 /* third-party libraries CSS */
 
-.tableCheckbox:checked ~ div span {
+.tableCheckbox:checked~div span {
     @apply opacity-100;
 }
 
-.tableCheckbox:checked ~ div {
+.tableCheckbox:checked~div {
     @apply border-primary bg-primary;
 }
 
 .apexcharts-legend-text {
-    @apply !text-dark-5 dark:!text-dark-6;
+    @apply text-dark-5 dark:text-dark-6;
 }
 
 .apexcharts-text {
-    @apply !fill-dark-5 dark:!fill-dark-6;
+    @apply fill-dark-5 dark:fill-dark-6;
 }
 
 .apexcharts-yaxis-label {
@@ -214,9 +216,9 @@ span.flatpickr-weekday,
     @apply !border-primary !bg-primary hover:!border-primary hover:!bg-primary;
 }
 
-.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n + 1)),
-.flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
-.flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
+.flatpickr-day.selected.startRange+.endRange:not(:nth-child(7n + 1)),
+.flatpickr-day.startRange.startRange+.endRange:not(:nth-child(7n + 1)),
+.flatpickr-day.endRange.startRange+.endRange:not(:nth-child(7n + 1)) {
     box-shadow: -10px 0 0 #3c50e0;
 }
 
@@ -248,15 +250,15 @@ span.flatpickr-weekday,
     @apply !left-10;
 }
 
-.taskCheckbox:checked ~ .box span {
+.taskCheckbox:checked~.box span {
     @apply opacity-100;
 }
 
-.taskCheckbox:checked ~ p {
+.taskCheckbox:checked~p {
     @apply line-through;
 }
 
-.taskCheckbox:checked ~ .box {
+.taskCheckbox:checked~.box {
     @apply border-primary bg-primary dark:border-primary;
 }
 
@@ -356,37 +358,37 @@ span.flatpickr-weekday,
     @apply before:hidden after:hidden;
 }
 
-.datatable-table > thead > tr:first-child > th {
+.datatable-table>thead>tr:first-child>th {
     @apply border-transparent px-2.5 pb-2.5 pt-9 font-medium;
 }
 
-.data-table-common .datatable-table > tbody > tr > td:first-child,
-.data-table-common .datatable-table > thead > tr > th:first-child {
+.data-table-common .datatable-table>tbody>tr>td:first-child,
+.data-table-common .datatable-table>thead>tr>th:first-child {
     @apply pl-8;
 }
 
-.data-table-common .datatable-table > tbody > tr > td:last-child,
-.data-table-common .datatable-table > thead > tr > th:last-child {
+.data-table-common .datatable-table>tbody>tr>td:last-child,
+.data-table-common .datatable-table>thead>tr>th:last-child {
     @apply pr-8;
 }
 
-.data-table-common .datatable-table > thead > tr:last-child > th {
+.data-table-common .datatable-table>thead>tr:last-child>th {
     @apply !border-b border-stroke pb-6 dark:border-dark-3;
 }
 
-.data-table-common .datatable-table > thead > tr:last-child > th input {
+.data-table-common .datatable-table>thead>tr:last-child>th input {
     @apply h-[34px] w-full rounded border border-stroke bg-transparent px-3 text-sm outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary;
 }
 
-.data-table-common .datatable-table > tbody > tr {
+.data-table-common .datatable-table>tbody>tr {
     @apply hover:bg-primary hover:bg-opacity-5;
 }
 
-.data-table-one .datatable-table > tbody > tr > td:first-child {
+.data-table-one .datatable-table>tbody>tr>td:first-child {
     @apply text-primary dark:text-white;
 }
 
-.data-table-common .datatable-table > tbody > tr > td {
+.data-table-common .datatable-table>tbody>tr>td {
     @apply border-b border-stroke py-5 font-medium dark:border-dark-3;
 }
 
@@ -462,21 +464,22 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .custom-gradient-1 {
-    background-image: linear-gradient(145deg, #EEF 0%, #FFF8FC 100%);;
+    background-image: linear-gradient(145deg, #EEF 0%, #FFF8FC 100%);
+    ;
 }
 
-.custom-invoice-frombill{
+.custom-invoice-frombill {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
 }
 
-#invoice-preview{
+#invoice-preview {
     border: black 1px solid;
 }
 
 
-.collapse-main{
+.collapse-main {
     display: flex;
     align-items: center;
 }
@@ -491,7 +494,7 @@ input[type="search"]::-webkit-search-cancel-button {
     justify-content: center;
 }
 
-.custom-amount-qty-box{
+.custom-amount-qty-box {
     border: 1px solid gray;
     padding-left: 16px;
     padding-right: 16px;
@@ -501,16 +504,27 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 
-.custom-billing-from-to {
-    
+.invoice-btn {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 12px;
+    color:#fff;
 }
 
-@media (max-width: 1023px){
-    .hideSideBtn{
+.invoice-btn-main{
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+}
+
+@media (max-width: 1023px) {
+    .hideSideBtn {
         visibility: hidden;
     }
 
-    .designFlipBtn{
+    .designFlipBtn {
         border: 0px;
     }
 }
