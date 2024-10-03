@@ -1,0 +1,63 @@
+/* styles/globals.css */
+.alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  z-index: 1000;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.alert.success {
+  background-color: #4caf50; /* Green */
+}
+
+.alert.error {
+  background-color: #f44336; /* Red */
+}
+
+.alert.info {
+  background-color: #2196F3; /* Blue */
+}
+
+.alert.warning {
+  background-color: #ff9800; /* Orange */
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 15px;
+}
+
+.close-button:hover {
+  opacity: 0.8; /* Slightly transparent on hover */
+}
+
+@media (max-width: 600px) {
+  .alert {
+      width: 90%; /* Responsive width for smaller screens */
+      left: 5%;
+      transform: none; /* Reset transform for small screens */
+      flex-direction: column; /* Stack elements vertically */
+      align-items: flex-start; /* Align items to start */
+      padding: 10px; /* Adjust padding for smaller screens */
+  }
+
+  .close-button {
+      margin-left: 0; /* Remove left margin for smaller screens */
+      margin-top: 5px; /* Add top margin for separation */
+      align-self: flex-end; /* Align close button to the right */
+  }
+}

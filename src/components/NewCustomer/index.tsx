@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import CustomAlert from "../CustomAlert";
 
 const NewCustomerBox = () => {
   const [name, setName] = useState("");
@@ -10,6 +11,12 @@ const NewCustomerBox = () => {
   const [address, setAddress] = useState("");
   const [demoCustomer, setDemoCustomer] = useState({});
   const router = useRouter();
+  const [alertMessage, setAlertMessage] = useState<{ message?: string; type?: string }>({});
+
+  const showAlert = (message: string, type: 'success' | 'error' | 'info' | 'warning') => {
+    setAlertMessage({ message, type });
+    setTimeout(() => setAlertMessage({}), 3000); // Clear alert after 3 seconds
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,6 +24,8 @@ const NewCustomerBox = () => {
     const newCustomerData = {"name":name, "email":email, "phone":phone, "address":address}
     setDemoCustomer(newCustomerData)
     localStorage.setItem('newCustomer',  JSON.stringify(newCustomerData))
+    showAlert('Customer Created Successfully!', 'success');
+    setTimeout(() => router.back(), 3000);
   };
 
   const handleBackClick = () => {
@@ -105,6 +114,7 @@ const NewCustomerBox = () => {
           </button>
         </div>
       </form>
+      <CustomAlert message={alertMessage.message || ''} type={alertMessage.type as any} />
     </div>
   );
 };

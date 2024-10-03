@@ -8,8 +8,8 @@ import NewCustomerBox from "@/components/NewCustomer";
 
 
 const ECommerce: React.FC = () => {
-  const [token, setToken] = useState<string | null>(null);;
-
+  const [token, setToken] = useState<string | null>(null);
+  
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
