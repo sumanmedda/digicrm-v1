@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const NewCustomerBox = () => {
@@ -8,17 +8,15 @@ const NewCustomerBox = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [demoCustomer, setDemoCustomer] = useState({});
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic here
-    console.log({
-      name,
-      email,
-      phone,
-      address,
-    });
+    const newCustomerData = {"name":name, "email":email, "phone":phone, "address":address}
+    setDemoCustomer(newCustomerData)
+    localStorage.setItem('newCustomer',  JSON.stringify(newCustomerData))
   };
 
   const handleBackClick = () => {

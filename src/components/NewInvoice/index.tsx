@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image";
-import React, { useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
@@ -23,6 +23,13 @@ interface State {
   tax: number;
   signatureType: string;
   uploadedSignatures: string[];
+}
+
+interface Customer {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
 }
 
 type Action =
@@ -93,8 +100,12 @@ const reducer = (state: State, action: Action): State => {
 const NewInvoiceBox = () => {
   const router = useRouter();
   const pdfData = useRef(null);
+  const [newCustomer, setNewCustomer] = useState<Customer[]>([]);
   const [state, dispatch] = useReducer(reducer, initialState);
   const [dialogVisible, setDialogVisible] = useState(false);
+  const [selectedCustomerMail, setSelectedCustomerMail] = useState("");
+  const [selectedCustomerPhone, setSelectedCustomePhone] = useState('');
+
   const {
     selectedCustomer,
     selectedProducts,
@@ -107,10 +118,32 @@ const NewInvoiceBox = () => {
     signatureType,
   } = state;
 
+
+
   const customers = [
-    { name: "John Doe", address: "123 Main St, City, State, 12345", gst: "GST12345" },
-    { name: "Jane Smith", address: "456 Oak Ave, City, State, 67890", gst: "GST67890" },
+    { name: "John Doe", email:"dave@gmail.com", phone:"9867456767", address: "123 Main St, City, State, 12345", },
+    { name: "Jane Smith", email:"smith776@gmail.com", phone:"9856645457", address: "456 Oak Ave, City, State, 67890", },
   ];
+
+  useEffect(() => {
+    // Retrieve the data from localStorage
+    const newLocalCustomer = localStorage.getItem('newCustomer');
+  
+    // Check if there is data and parse it
+    if (newLocalCustomer) {
+      try {
+        const parsedCustomer = JSON.parse(newLocalCustomer);
+        
+        // Update state using setNewCustomer
+        setNewCustomer(() => {
+          return parsedCustomer ? [...customers, parsedCustomer] : customers;
+        });
+        
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    }
+  }, []);
 
   const products = [
     { name: "Product1", price: 100 },
@@ -194,14 +227,15 @@ const NewInvoiceBox = () => {
               }
               className="w-full p-2 border rounded-md"
             >
-              <option value="" disabled>Select Customer</option>
-              {customers.map((customer) => (
+              <option 
+              value="" disabled>Select Customer</option>
+              {newCustomer.map((customer: Customer) => (
                 <option key={customer.name} value={customer.name}>
                   {customer.name}
                 </option>
               ))}
             </select>
-            <p>{selectedCustomer ? customers.find(c => c.name === selectedCustomer)?.address : "Customer Address"}</p>
+            <p>{selectedCustomer ? newCustomer.find((c: Customer) => c.name === selectedCustomer)?.address  : "Customer Address"}</p>
           </div>
         </div>
 
@@ -377,7 +411,13 @@ const NewInvoiceBox = () => {
           </Link> */}
           <button
             type="button"
-            onClick={() => handleSendMail("mailer mails").then(() => setDialogVisible(true))}
+            onClick={() => handleSendMail(
+              selectedCustomer,
+              newCustomer.find((c: Customer) => c.name === selectedCustomer)?.address,
+              newCustomer.find((c: Customer) => c.name === selectedCustomer)?.email,
+              newCustomer.find((c: Customer) => c.name === selectedCustomer)?.phone,
+              grandTotal.toFixed(2)
+            ).then(() => setDialogVisible(true))}
             className="bg-green-500 text-white px-4 py-2 rounded-md shadow hover:bg-green-600"
           >
             Send Invoice
@@ -390,7 +430,7 @@ const NewInvoiceBox = () => {
             <div className="bg-white p-6 rounded-md shadow-lg max-w-sm w-full text-center animate-fade-in">
               <h2 className="text-lg font-bold mb-2 text-green-600">Success!</h2>
               <p className="text-gray-700 mb-4">
-                Invoice sent successfully to <span className="font-semibold">{"Mr Robort"}</span>
+                Invoice sent successfully to <span className="font-semibold">{selectedCustomer}</span>
               </p>
               <button
                 onClick={() => setDialogVisible(false)}

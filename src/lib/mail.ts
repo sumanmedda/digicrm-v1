@@ -45,8 +45,8 @@ export async function sendMail({ to,
     }
 }
 
-export function comppileWithInvoice(name: string, dueDate: string, invoiceDate: string, invoiceNumber: string, finalAmount: string, billToClient: string) {
+export function comppileWithInvoice(customerName: string,customerEmail: string,customerAddress: string,name: string, dueDate: string, invoiceDate: string, invoiceNumber: string, finalAmount: string, billToClient: string) {
     const template = handlebars.compile(invoiceTemplate)
-    const htmlBody = template({ name: name, dueDate: dueDate, invoiceDate: invoiceDate, invoiceNumber: invoiceNumber, finalAmount: finalAmount, billToClient: billToClient })
+    const htmlBody = template({ customerName:customerName, customerEmail:customerEmail,customerAddress:customerAddress, name: name, dueDate: dueDate, invoiceDate: invoiceDate, invoiceNumber: invoiceNumber, finalAmount: finalAmount, billToClient: billToClient })
     return htmlBody;
 }

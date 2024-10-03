@@ -189,7 +189,7 @@ export const invoiceTemplate = `<!DOCTYPE html>
                               <tr>
                                 <td class="pad">
                                   <div style="color:#ffffff;direction:ltr;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:18px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:right;mso-line-height-alt:21.599999999999998px;">
-                                    <p style="margin: 0;">Bill to:<br>Jane Doe<br>Company<br>123 Street Adress<br>janedoe@example.com</p>
+                                    <p style="margin: 0;">Bill to:<br>{{customerName}}<br>Company<br>{{customerAddress}}<br>{{customerEmail}}</p>
                                   </div>
                                 </td>
                               </tr>

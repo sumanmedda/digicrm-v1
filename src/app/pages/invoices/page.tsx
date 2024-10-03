@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 // };
 
 const Invoices = () => {
-  const [token, setToken] = useState<string | null>(null);;
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
