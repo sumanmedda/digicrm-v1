@@ -81,28 +81,28 @@ const InvoiceBox = () => {
     }, 4000);
   };
 
-  return (
-    <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
+  return <>
+  <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card mb-2">
       
       {/* Add Product Button */}
-      <div className="mb-5.5">
+      <div className="flex w-full mb-4">
         <button
           onClick={handleAddProduct}
-          className="px-4 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 w-full sm:w-auto"
+          className="px-4 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 flex w-full sm:w-auto"
         >
           {!startLoader?"Add Invoice" :<CustomLoader />} 
         </button>
       </div>
 
       {/* Tabs */}
-      <div className="flex justify-between w-full mb-5.5">
+      <div className="flex justify-between w-full">
         {["All", "Upcoming", "Overdue", "Paid"].map((tab) => (
           <button
             key={tab}
             onClick={() => setSelectedTab(tab)}
-            className={`w-full px-4 py-2 text-center border-b-2 ${
+            className={`w-full px-4 py-2 text-center rounded-xl border-b-2 ${
               selectedTab === tab
-                ? "bg-green-500 text-white"
+                ? "bg-violet-500 text-white"
                 : "border-transparent text-gray-500 hover:border-gray-300"
             }`}
           >
@@ -110,6 +110,9 @@ const InvoiceBox = () => {
           </button>
         ))}
       </div>
+    </div>
+
+    <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
 
       {/* Date Pickers and Search */}
       <div className="flex flex-col sm:flex-row justify-between mb-5.5">
@@ -249,7 +252,7 @@ const InvoiceBox = () => {
         </div>
       </div>
     </div>
-  );
+  </>  
 };
 
 export default InvoiceBox;

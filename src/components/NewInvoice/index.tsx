@@ -159,7 +159,7 @@ const NewInvoiceBox = () => {
       {/* Right Side: Invoice Preview */}
       <div
         id="invoice-preview"
-        className="w-full sm:w-7/10 p-4 bg-white shadow-md rounded-md"
+        className="w-full sm:w-7/10 p-12 bg-white shadow-md rounded-md"
       >
         {/* Customer and Billing */}
         <div className="mb-4 custom-invoice-frombill">
@@ -218,7 +218,7 @@ const NewInvoiceBox = () => {
                 className="ml-2 p-1 border rounded-md"
               />
             </p>
-            <p className="text-lg pb-10">
+            <p className="text-lg pt-1 pb-10">
               <span className="font-bold">Due Date:</span>
               <DatePicker
                 selected={dueDate}
@@ -362,8 +362,8 @@ const NewInvoiceBox = () => {
         </div>
 
         {/* Preview and Send Invoice Buttons */}
-        <div className="flex justify-between mt-8">
-          <Link href={{
+        <div className="flex justify-end mt-8">
+          {/* <Link href={{
             pathname: '/pages/previewInvoice',
             query: { name: 'Digiprayas' } // the data
           }}>
@@ -374,7 +374,7 @@ const NewInvoiceBox = () => {
             >
               Preview Invoice
             </button>
-          </Link>
+          </Link> */}
           <button
             type="button"
             onClick={() => handleSendMail("mailer mails").then(() => setDialogVisible(true))}
