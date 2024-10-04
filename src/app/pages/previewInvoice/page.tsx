@@ -69,7 +69,7 @@ export default function PreviewInvoice() {
             <button className="invoice-btn bg-red-600 hover:bg-black" onClick={router.back}>Back</button>
             <div>
                 <button className="invoice-btn bg-blue-700 hover:bg-black" onClick={handleDownloadInvoice} style={{marginRight:"5px"}}>Download</button>
-                <button className="invoice-btn bg-green-500 hover:bg-black" onClick={() => handleSendMail("mailer mails").then(() => setDialogVisible(true))}>Send</button>
+                <button className="invoice-btn bg-green-500 hover:bg-black" onClick={() => handleSendMail("",'','','',"mailer mails").then(() => setDialogVisible(true))}>Send</button>
             </div>
         </div>
         <title />
@@ -2417,7 +2417,7 @@ export default function PreviewInvoice() {
             <button className="invoice-btn bg-red-600 hover:bg-black" onClick={router.back}>Back</button>
             <div>
                 <button className="invoice-btn bg-blue-700 hover:bg-black" style={{marginRight:"5px"}}>Download</button>
-                <button className="invoice-btn bg-green-500 hover:bg-black" onClick={() => handleSendMail("mailer mails").then(() => setDialogVisible(true))}>Send</button>
+                <button className="invoice-btn bg-green-500 hover:bg-black" onClick={() => handleSendMail('','','','',"mailer mails").then(() => setDialogVisible(true))}>Send</button>
             </div>
         </div>
         {/* End */}
