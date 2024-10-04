@@ -83,36 +83,6 @@ const InvoiceBox = () => {
 
   return <>
   <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card mb-2">
-      
-      {/* Add Product Button */}
-      <div className="flex w-full mb-4">
-        <button
-          onClick={handleAddProduct}
-          className="px-4 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 flex w-full sm:w-auto"
-        >
-          {!startLoader?"Add Invoice" :<CustomLoader />} 
-        </button>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex justify-between w-full">
-        {["All", "Upcoming", "Overdue", "Paid"].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setSelectedTab(tab)}
-            className={`w-full px-4 py-2 text-center rounded-xl border-b-2 ${
-              selectedTab === tab
-                ? "bg-violet-500 text-white"
-                : "border-transparent text-gray-500 hover:border-gray-300"
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-    </div>
-
-    <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
 
       {/* Date Pickers and Search */}
       <div className="flex flex-col sm:flex-row justify-between mb-5.5">
@@ -136,25 +106,57 @@ const InvoiceBox = () => {
             minDate={startDate}
             placeholderText="End Date"
             dateFormat={"yyyy-MM-dd"}
-            className="border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 w-full"
+            className="ml-1 border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 w-full"
           />
           <button
             onClick={handleDateClear}
-            className="h-10 px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2"
+            className="h-10 px-2 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2"
           >
             <TiDeleteOutline />
           </button>
         </div>
-        <div className="flex items-center w-full sm:w-auto">
-          <input
+        <button
+          onClick={handleAddProduct}
+          className="px-2 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 w-40"
+        >
+          {!startLoader?"Add Invoice" :<CustomLoader />} 
+        </button>
+      </div>
+      
+      {/* Add Product Button */}
+      <div className="flex w-full mb-4">
+      <input
             type="text"
             placeholder="Search..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="border border-gray-300 p-2 rounded-md w-full"
           />
-        </div>
       </div>
+
+      
+    </div>
+
+    <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
+
+      {/* Tabs */}
+      <div className="flex justify-between w-full pb-10">
+        {["All", "Upcoming", "Overdue", "Paid"].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setSelectedTab(tab)}
+            className={`w-full px-4 py-2 text-center rounded-xl border-b-2 ${
+              selectedTab === tab
+                ? "bg-violet-500 text-white"
+                : "border-transparent text-gray-500 hover:border-gray-300"
+            }`}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      
 
       {/* Invoices Table */}
       <div className="overflow-x-auto">
