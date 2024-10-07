@@ -1,9 +1,17 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { TiDeleteOutline } from "react-icons/ti";
 import { FiCopy } from "react-icons/fi";
+
+interface Customer {
+  customerId: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+}
 
 const initialCustomerData = [
   { customerId: "CSTR-001", name: "Caparo", email: "sales@caparo.com", phone: "+91-7764598367" },
@@ -19,17 +27,19 @@ const CustomerBox = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [customers, setCustomers] = useState(initialCustomerData);
   const itemsPerPage = 5;
+  const [newCustomer, setNewCustomer] = useState<Customer[]>([]);
+
 
   const handleDelete = (customerId: string) => {
-    const updatedCustomers = customers.filter(customer => customer.customerId !== customerId);
-    setCustomers(updatedCustomers);
+    const updatedCustomers = newCustomer.filter(customer => customer.customerId !== customerId);
+    setNewCustomer(updatedCustomers);
   };
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
   };
 
-  const filteredCustomers = customers.filter((customer) =>
+  const filteredCustomers = newCustomer.filter((customer) =>
     customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
     customer.phone.includes(searchTerm)
@@ -44,6 +54,21 @@ const CustomerBox = () => {
   const handleRowClick = (customerId: string) => {
     router.push(`/pages/customer/${customerId}`);
   };
+
+  useEffect(() => {
+    const newLocalCustomer = localStorage.getItem('newCustomer');
+  
+    if (newLocalCustomer) {
+      try {
+        const parsedCustomer = JSON.parse(newLocalCustomer);
+        setNewCustomer(() => {
+          return parsedCustomer ? [...initialCustomerData, parsedCustomer] : initialCustomerData;
+        });
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    }
+  }, []);
 
   return (
     <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">

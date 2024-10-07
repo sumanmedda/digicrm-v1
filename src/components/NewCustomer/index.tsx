@@ -21,7 +21,8 @@ const NewCustomerBox = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic here
-    const newCustomerData = {"name":name, "email":email, "phone":phone, "address":address}
+    const customerId = crypto.randomUUID()
+    const newCustomerData = {customerId:customerId,"name":name, "email":email, "phone":phone, "address":address}
     setDemoCustomer(newCustomerData)
     localStorage.setItem('newCustomer',  JSON.stringify(newCustomerData))
     showAlert('Customer Created Successfully!', 'success');
