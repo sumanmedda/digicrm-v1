@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
@@ -11,9 +11,12 @@ import Signin from "@/components/Auth/Signin";
 //   description: "This is Next.js Login Page NextAdmin Dashboard Kit",
 // };
 
+
+
 const SignIn: React.FC = () => {
-  return (
-    <DefaultLayout>
+
+  return (<>
+     {/* <DefaultLayout> */}
       <Breadcrumb pageName="Sign In" />
 
       <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
@@ -47,7 +50,7 @@ const SignIn: React.FC = () => {
               </p>
 
               <h1 className="mb-4 text-2xl font-bold text-dark dark:text-white sm:text-heading-3">
-                Welcome Back!
+                Welcome Back! To DIGICRM
               </h1>
 
               <p className="w-full max-w-[375px] font-medium text-dark-4 dark:text-dark-6">
@@ -68,7 +71,8 @@ const SignIn: React.FC = () => {
           </div>
         </div>
       </div>
-    </DefaultLayout>
+    {/* </DefaultLayout> */}
+    </>
   );
 };
 

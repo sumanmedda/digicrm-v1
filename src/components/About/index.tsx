@@ -10,7 +10,7 @@ const AboutBoxes = () => {
           <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card">
             <div className="border-b border-stroke px-7 py-4 dark:border-dark-3">
               <h3 className="font-medium text-dark dark:text-white">
-                About the Product
+                About the Company
               </h3>
             </div>
             <div className="p-7">
@@ -48,8 +48,7 @@ const AboutBoxes = () => {
                       id="bio"
                       rows={6}
                       placeholder="Write your bio here"
-                      defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam lacinia turpis tortor, consequat efficitur mi congue a. Curabitur cursus, ipsum ut lobortis sodales, enim arcu pellentesque lectus
- ac suscipit diam sem a felis. Cras sapien ex, blandit eu dui et suscipit gravida nunc. Sed sed est quis dui."
+                      defaultValue="Caparo, in India, has distinguished itself as one of the select conglomerates to have product capabilities ranging from Metal Pressing to Forging, Stamping, Sheet metal, Aluminium die casting, Fasteners, Steel Tube manufacturing, Tooling, and Fabrication."
                     ></textarea>
                   </div>
                 </div>

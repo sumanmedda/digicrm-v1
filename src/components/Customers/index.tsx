@@ -6,11 +6,11 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { FiCopy } from "react-icons/fi";
 
 const initialCustomerData = [
-  { customerId: "CSTR-001", name: "John Doe", email: "john.doe@example.com", phone: "+1234567890" },
-  { customerId: "CSTR-002", name: "Jane Smith", email: "jane.smith@example.com", phone: "+0987654321" },
-  { customerId: "CSTR-003", name: "Tom Johnson", email: "tom.johnson@example.com", phone: "+1122334455" },
-  { customerId: "CSTR-004", name: "Emily Davis", email: "emily.davis@example.com", phone: "+2233445566" },
-  { customerId: "CSTR-005", name: "Michael Brown", email: "michael.brown@example.com", phone: "+3344556677" },
+  { customerId: "CSTR-001", name: "Caparo", email: "sales@caparo.com", phone: "+91-7764598367" },
+  { customerId: "CSTR-002", name: "LPS", email: "lps.sales@lps.com", phone: "+91-9987364738" },
+  { customerId: "CSTR-003", name: "STL", email: "sales@stl.com", phone: "+91-7785947568" },
+  { customerId: "CSTR-004", name: "SV Envirotech", email: "d.solanki@sve.com", phone: "+91-9873465789" },
+  { customerId: "CSTR-005", name: "Sparsh Raysan", email: "sparsh.66@raysan.com", phone: "+01-8878734657" },
 ];
 
 const CustomerBox = () => {

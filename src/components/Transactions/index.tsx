@@ -6,11 +6,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const initialTransactionData = [
-  { transactionId: "TXN-001", customer: "John Doe", amount: "1,250", billingDate: "2024-09-01", settlementDate: "2024-09-10", type: "Credit" },
-  { transactionId: "TXN-002", customer: "Jane Smith", amount: "2,450", billingDate: "2024-09-02", settlementDate: "2024-09-12", type: "Debit" },
-  { transactionId: "TXN-003", customer: "Tom Johnson", amount: "3,550", billingDate: "2024-09-03", settlementDate: "2024-09-13", type: "Credit" },
-  { transactionId: "TXN-004", customer: "Emily Davis", amount: "1,750", billingDate: "2024-09-04", settlementDate: "2024-09-14", type: "Debit" },
-  { transactionId: "TXN-005", customer: "Michael Brown", amount: "4,350", billingDate: "2024-09-05", settlementDate: "2024-09-15", type: "Credit" },
+  { transactionId: "TXN-001", invoiceId:"INV-001", bankAccNum:"xxxx-4456", customer: "Ronak Sharma", amount: "1,250", billingDate: "2024-09-01", settlementDate: "2024-09-10", type: "Credit" },
+  { transactionId: "TXN-002", invoiceId:"INV-002", bankAccNum:"xxxx-8294", customer: "Sampad Medda", amount: "2,450", billingDate: "2024-09-02", settlementDate: "2024-09-12", type: "Debit" },
+  { transactionId: "TXN-003", invoiceId:"INV-003", bankAccNum:"xxxx-2367", customer: "Nitin Vyas", amount: "3,550", billingDate: "2024-09-03", settlementDate: "2024-09-13", type: "Credit" },
+  { transactionId: "TXN-004", invoiceId:"INV-004", bankAccNum:"xxxx-0098", customer: "Sparsh Rayasan", amount: "1,750", billingDate: "2024-09-04", settlementDate: "2024-09-14", type: "Debit" },
+  { transactionId: "TXN-005", invoiceId:"INV-005", bankAccNum:"xxxx-3471", customer: "Dharmendra Solanki", amount: "4,350", billingDate: "2024-09-05", settlementDate: "2024-09-15", type: "Credit" },
   // Add 15 more entries...
 ];
 
@@ -111,9 +111,15 @@ const TransactionBox = () => {
 
       {/* Transactions Table */}
       <div className="overflow-x-auto">
-        <div className="min-w-[700px] grid grid-cols-6">
+        <div className="min-w-[700px] grid grid-cols-8">
           <div className="px-2 pb-3.5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">Transaction ID</h5>
+          </div>
+          <div className="px-2 pb-3.5">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Invoice ID</h5>
+          </div>
+          <div className="px-2 pb-3.5">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">Bank Acc Num</h5>
           </div>
           <div className="px-2 pb-3.5 text-center">
             <h5 className="text-sm font-medium uppercase xsm:text-base">Customer</h5>
@@ -136,12 +142,18 @@ const TransactionBox = () => {
           <div
             key={transaction.transactionId}
             onClick={() => handleRowClick(transaction.transactionId)}
-            className={`grid min-w-[700px] grid-cols-6 border-b border-stroke dark:border-dark-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700`}
+            className={`grid min-w-[700px] grid-cols-8 border-b border-stroke dark:border-dark-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700`}
           >
             <div className="flex items-center gap-3.5 px-2 py-4">
               <p className="font-medium text-dark dark:text-white">{transaction.transactionId}</p>
             </div>
-            <div className="flex items-center justify-center px-2 py-4">
+            <div className="flex items-center gap-3.5 px-2 py-4">
+              <p className="font-medium text-dark dark:text-white">{transaction.invoiceId}</p>
+            </div>
+            <div className="flex items-center gap-3.5 px-2 py-4">
+              <p className="font-medium text-dark dark:text-white">{transaction.bankAccNum}</p>
+            </div>
+            <div className="flex items-center px-2 py-4">
               <p className="font-medium text-dark dark:text-white">{transaction.customer}</p>
             </div>
             <div className="flex items-center justify-center px-2 py-4">

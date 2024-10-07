@@ -2,8 +2,26 @@
 import React from "react";
 import Image from "next/image";
 import InviteSystem from "../InviteSystem";
+import { useState, useEffect, useRef } from "react";
 
 const CompanySettingBoxes = () => {
+  const [companyName, setCompanyName] = useState<string | null>(null);
+  const companyFinalName = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    const storedCompanyName = localStorage.getItem('companyName');
+    if (storedCompanyName) {
+      setCompanyName(storedCompanyName);
+    }
+  }, [])
+
+  const onSavingCompanyInfo = () => {
+    console.log(companyFinalName.current?.value)
+    const companyValue = companyFinalName.current?.value ?? 'Default'
+    localStorage.setItem('companyName', companyValue)
+    setCompanyName(companyValue)
+  }
+
   return (
     <>
       <div className="grid grid-cols-5 gap-8">
@@ -53,8 +71,10 @@ const CompanySettingBoxes = () => {
                         type="text"
                         name="fullName"
                         id="fullName"
-                        placeholder="Devid Jhon"
-                        defaultValue="Devid Jhon"
+                        placeholder="Digicrm"
+                        ref={companyFinalName}
+                        value={companyName ?? 'Company'}
+                        onChange={(e) => setCompanyName(e.target.value)}
                       />
                     </div>
                   </div>
@@ -90,8 +110,8 @@ const CompanySettingBoxes = () => {
                         type="text"
                         name="phoneNumber"
                         id="phoneNumber"
-                        placeholder="+990 3343 7865"
-                        defaultValue="+990 3343 7865"
+                        placeholder="+91-124-4318222"
+                        defaultValue="+91-124-4318222"
                       />
                     </div>
                   </div>
@@ -127,8 +147,8 @@ const CompanySettingBoxes = () => {
                       type="email"
                       name="emailAddress"
                       id="emailAddress"
-                      placeholder="devidjond45@gmail.com"
-                      defaultValue="devidjond45@gmail.com"
+                      placeholder="sales@caparo.com"
+                      defaultValue="sales@caparo.com"
                     />
                   </div>
                 </div>
@@ -166,8 +186,7 @@ const CompanySettingBoxes = () => {
                       id="bio"
                       rows={6}
                       placeholder="Write your bio here"
-                      defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam lacinia turpis tortor, consequat efficitur mi congue a. Curabitur cursus, ipsum ut lobortis sodales, enim arcu pellentesque lectus
- ac suscipit diam sem a felis. Cras sapien ex, blandit eu dui et suscipit gravida nunc. Sed sed est quis dui."
+                      defaultValue="Caparo, in India, has distinguished itself as one of the select conglomerates to have product capabilities ranging from Metal Pressing to Forging, Stamping, Sheet metal, Aluminium die casting, Fasteners, Steel Tube manufacturing, Tooling, and Fabrication."
                     ></textarea>
                   </div>
                 </div>
@@ -180,6 +199,7 @@ const CompanySettingBoxes = () => {
                     Cancel
                   </button>
                   <button
+                  onClick={onSavingCompanyInfo}
                     className="flex justify-center rounded-[7px] bg-primary px-6 py-[7px] font-medium text-gray-2 hover:bg-opacity-90"
                     type="submit"
                   >
@@ -197,19 +217,19 @@ const CompanySettingBoxes = () => {
                 Company Photo
               </h3>
             </div>
-            <div className="p-7">
+            <div className="p-7  h-[544px]">
               <form>
                 <div className="mb-4 flex items-center gap-3">
                   <div className="h-14 w-14 rounded-full">
-                    <>
+                    <div className="px-1" style={{border: "1px solid black", display: "flex", justifyItems:" center", alignItems: "center", height: "50px", borderRadius: "12px"}}>
                       <Image
-                        src="/images/user/user-03.png"
+                        src="https://www.caparo.co.in/images/logo.svg"
                         width={55}
                         height={55}
                         alt="User"
                         className="overflow-hidden rounded-full"
                       />
-                    </>
+                    </div>
                   </div>
                   <div>
                     <span className="mb-1.5 font-medium text-dark dark:text-white">

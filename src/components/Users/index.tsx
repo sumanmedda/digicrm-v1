@@ -6,13 +6,13 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { FiCopy } from "react-icons/fi";
 
 const initialUserData = [
-  { UserId: "USR-001", name: "John Doe", email: "john.doe@example.com", phone: "+1234567890", role: "Admin" },
-  { UserId: "USR-002", name: "Jane Smith", email: "jane.smith@example.com", phone: "+0987654321", role: "User" },
-  { UserId: "USR-003", name: "Tom Johnson", email: "tom.johnson@example.com", phone: "+1122334455", role: "Editor" },
-  { UserId: "USR-004", name: "Emily Davis", email: "emily.davis@example.com", phone: "+2233445566", role: "Admin" },
-  { UserId: "USR-005", name: "James Grace", email: "james.grace@example.com", phone: "+7648574633", role: "User" },
-  { UserId: "USR-006", name: "Klam Cris", email: "klam.cris@example.com", phone: "+5563847648", role: "Super Admin" },
-  { UserId: "USR-007", name: "Nathen Jack", email: "nathen.jack@example.com", phone: "+99826357378", role: "User" },
+  { UserId: "USR-001", name: "Ronak Sharma", email: "ronak.sharma@gmail.com", phone: "+91-7898778767", role: "Admin" },
+  { UserId: "USR-002", name: "Sampad Medda", email: "medda.sampad@gmail.com", phone: "+91-7865674467", role: "User" },
+  { UserId: "USR-003", name: "Nitin Vyas", email: "nitin.kumar.vyas@gmail.com", phone: "+91-9988764531", role: "Editor" },
+  { UserId: "USR-004", name: "Dharmendra Solanki", email: "d.solanki@gmail.com", phone: "+91-9334675569", role: "Admin" },
+  { UserId: "USR-005", name: "Sparsh Rayasan", email: "sparsh.rayasan111@gmail.com", phone: "+91-9873345769", role: "User" },
+  { UserId: "USR-006", name: "Debasis De", email: "debasisde867@gmail.com", phone: "+91-96645678349", role: "Super Admin" },
+  { UserId: "USR-007", name: "Raju Singh", email: "raju.singh55@gmail.com", phone: "+91-8135259871", role: "User" },
 ]
 
 const UserBox = () => {

@@ -1,11 +1,25 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SigninWithPassword() {
+  const router = useRouter();
+
   const [data, setData] = useState({
     remember: false,
   });
+
+  function setNewToken(){
+    const token = localStorage.setItem('token', 'TOKEN-ACCESS-7789');
+    router.push('/');
+    console.log(token);
+  }
+
+  const onSubmit = () => {
+    console.log('Clicked Login')
+    setNewToken()
+  }
 
   return (
     <form>
@@ -131,6 +145,8 @@ export default function SigninWithPassword() {
       <div className="mb-4.5">
         <button
           type="submit"
+          onClick={onSubmit}
+          
           className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
         >
           Sign In

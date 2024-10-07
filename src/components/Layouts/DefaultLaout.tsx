@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import SidebarColapsed from "../Sidebar/SidebarColapsed";
@@ -13,19 +13,31 @@ export default function DefaultLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarFlip, setSidebarFlip] = useState(true);
 
+  const [token, setToken] = useState<string | null>(null);;
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);   
+    }
+  }, []);
+
   
   return (
     <>
       {/* <!-- ===== Page Wrapper Star ===== --> */}
-      <div className="flex h-screen overflow-hidden">
+      <div className="flex h-screen">
         {/* <!-- ===== Sidebar Star ===== --> */}
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        {token != null ? <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />: <></>}
+        
         {/* <!-- ===== Sidebar End ===== --> */}
 
         {/* <!-- ===== Content Area Star ===== --> */}
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           {/* <!-- ===== Header Star ===== --> */}
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          
+        {token != null ? <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />: <></>}
+
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Star ===== --> */}

@@ -3,26 +3,57 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import CustomAlert from "../CustomAlert";
+import { randomUUID } from "crypto";
+
 
 const NewProductBox = () => {
-  const [title, setTitle] = useState("");
+  const [chem, setChem] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [amount, setAmount] = useState("");
+  const [hsnSacCode, setHsnSacCode] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [qty, setQty] = useState("");
   const [description, setDescription] = useState("");
   const [uploadImage, setUploadImage] = useState(false);
   const router = useRouter();
+  const [alertMessage, setAlertMessage] = useState<{ message?: string; type?: string }>({});
+
+  const showAlert = (message: string, type: 'success' | 'error' | 'info' | 'warning') => {
+    setAlertMessage({ message, type });
+    setTimeout(() => setAlertMessage({}), 3000); // Clear alert after 3 seconds
+  };
+
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic here
     console.log({
-      title,
+      chem,
+      hsnSacCode,
       image,
-      price,
-      quantity,
+      amount,
+      qty,
+      expiryDate,
       description,
     });
+
+    const productId = crypto.randomUUID()
+
+    const newProduct = {
+      productId,
+      chem,
+      hsnSacCode,
+      amount,
+      qty,
+      expiryDate,
+    };
+
+    localStorage.setItem("newProduct", JSON.stringify(newProduct))
+    showAlert('Product Added Successfully!', 'success');
+    console.log(newProduct)
+    setTimeout(() => router.push('/pages/products'), 2000);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,15 +85,30 @@ const NewProductBox = () => {
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 dark:text-white font-medium mb-2" htmlFor="title">
-            Product Title
+            Product Name
           </label>
           <input
             type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            id="chem"
+            value={chem}
+            onChange={(e) => setChem(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-            placeholder="Enter product title"
+            placeholder="Enter product name"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 dark:text-white font-medium mb-2" htmlFor="price">
+            Product HSN/SAC Code
+          </label>
+          <input
+            type="text"
+            id="hsnSacCode"
+            value={hsnSacCode}
+            onChange={(e) => setHsnSacCode(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+            placeholder="Enter product HSN/SAC Code"
             required
           />
         </div>
@@ -73,9 +119,9 @@ const NewProductBox = () => {
           </label>
           <input
             type="number"
-            id="price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            id="amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
             placeholder="Enter product price"
             required
@@ -88,9 +134,9 @@ const NewProductBox = () => {
           </label>
           <input
             type="number"
-            id="quantity"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
+            id="qty"
+            value={qty}
+            onChange={(e) => setQty(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
             placeholder="Enter product quantity"
             required
@@ -146,6 +192,21 @@ const NewProductBox = () => {
           </>
         )}
 
+        <div className="mb-4">
+          <label className="block text-gray-700 dark:text-white font-medium mb-2" htmlFor="price">
+            Product Expiry Date
+          </label>
+          <input
+            type="date"
+            id="expiryDate"
+            value={expiryDate}
+            onChange={(e) => setExpiryDate(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+            placeholder="Enter product Expiry Date"
+            required
+          />
+        </div>
+
         <div className="mb-6">
           <label className="block text-gray-700 dark:text-white font-medium mb-2" htmlFor="description">
             Product Description
@@ -164,12 +225,14 @@ const NewProductBox = () => {
         <div className="flex justify-end">
           <button
             type="submit"
+            onClick={handleSubmit}
             className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
           >
             Submit
           </button>
         </div>
       </form>
+      <CustomAlert message={alertMessage.message || ''} type={alertMessage.type as any} />
     </div>
   );
 };

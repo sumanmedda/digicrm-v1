@@ -62,7 +62,7 @@ export default function Signin() {
         </p>
 
         <h1 className="mb-4 text-2xl font-bold text-dark dark:text-white sm:text-heading-3">
-          Welcome Back!
+          Welcome Back! To DIGICRM
         </h1>
 
         <p className="w-full max-w-[375px] font-medium text-dark-4 dark:text-dark-6">

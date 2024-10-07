@@ -6,22 +6,22 @@ import ClickOutside from "@/components/ClickOutside";
 import React, { useEffect, useState } from "react";
 
 const DropdownUser = () => {
-  const [token, setToken] = useState<string | null>(null);;
+  const [token, setToken] = useState<string | null>(null);
+  const [companyName, setCompanyName] = useState<string | null>('Company');
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
+    const companyName = localStorage.getItem('companyName');
     if (storedToken) {
       setToken(storedToken);   
+    }
+    if (companyName) {
+      setCompanyName(companyName);   
     }
   }, []);
 
   function removeToken(){
     localStorage.removeItem('token');
-    console.log(token);
-  }
-
-  function setNewToken(){
-    localStorage.setItem('token', 'TOKEN-ACCESS-7789');
     console.log(token);
   }
 
@@ -34,22 +34,18 @@ const DropdownUser = () => {
         className="flex items-center gap-4"
         href="#"
       >
-        <span className="h-12 w-12 rounded-full">
-          <Image
-            width={112}
-            height={112}
-            src="/images/user/user-03.png"
-            style={{
-              width: "auto",
-              height: "auto",
-            }}
-            alt="User"
-            className="overflow-hidden rounded-full"
-          />
-        </span>
+        <div className="px-1" style={{border: "1px solid black", display: "flex", justifyItems:" center", alignItems: "center", height: "50px", borderRadius: "12px"}}>
+                      <Image
+                        src="https://www.caparo.co.in/images/logo.svg"
+                        width={55}
+                        height={55}
+                        alt="User"
+                        className="overflow-hidden rounded-full"
+                      />
+                    </div>
 
         <span className="flex items-center gap-2 font-medium text-dark dark:text-dark-6">
-          <span className="hidden lg:block">Hi, User</span>
+          <span className="hidden lg:block">Hi, { companyName }</span>
 
           <svg
             className={`fill-current duration-200 ease-in ${dropdownOpen && "rotate-180"}`}
@@ -164,7 +160,7 @@ const DropdownUser = () => {
           className={`absolute right-0 mt-7.5 flex w-[280px] flex-col rounded-lg border-[0.5px] border-stroke bg-white shadow-default dark:border-dark-3 dark:bg-gray-dark`}
         > 
           <div className="p-2.5">
-            <Link href={'/'} onClick={setNewToken} className="flex w-full items-center gap-2.5 rounded-[7px] p-2.5 text-sm font-medium text-dark-4 duration-300 ease-in-out hover:bg-gray-2 hover:text-dark dark:text-dark-6 dark:hover:bg-dark-3 dark:hover:text-white lg:text-base">
+            <Link href={'/'} className="flex w-full items-center gap-2.5 rounded-[7px] p-2.5 text-sm font-medium text-dark-4 duration-300 ease-in-out hover:bg-gray-2 hover:text-dark dark:text-dark-6 dark:hover:bg-dark-3 dark:hover:text-white lg:text-base">
               <svg
                 className="fill-current"
                 width="18"

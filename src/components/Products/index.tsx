@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/navigation";
@@ -9,11 +9,20 @@ import { MdModeEditOutline } from "react-icons/md";
 import { MdOutlineDone } from "react-icons/md";
 
 const initialInvoiceData = [
-  { invoiceId: "PRDT-001", sentTo: "Chemical-1", amount: "1,250", qty: 5, dueDate: "2024-09-15" },
-  { invoiceId: "PRDT-002", sentTo: "Chemical-2", amount: "2,450", qty: 10, dueDate: "2024-09-18" },
-  { invoiceId: "PRDT-003", sentTo: "Chemical-3", amount: "3,550", qty: 8, dueDate: "2024-09-20" },
+  { productId: "PRDT-001", hsnSacCode:"28331990", chem: "Sodium Chloride", amount: "1,250", qty: 5, expiryDate: "2024-09-15" },
+  { productId: "PRDT-002", hsnSacCode:"36531968", chem: "Potassium Nitrate", amount: "2,450", qty: 10, expiryDate: "2024-09-18" },
+  { productId: "PRDT-003", hsnSacCode:"22331597", chem: "Sodium Bicarbonate", amount: "3,550", qty: 8, expiryDate: "2024-09-20" },
   // Add more products here...
 ];
+
+interface NewProduct {
+  productId: string;
+  hsnSacCode: string;
+  chem: string;
+  amount: string;
+  qty: string;
+  expiryDate: string;
+}
 
 const ProductsBox = () => {
   const router = useRouter();
@@ -21,14 +30,34 @@ const ProductsBox = () => {
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [invoices, setInvoices] = useState(initialInvoiceData);
+  // const [invoices, setInvoices] = useState(initialInvoiceData);
   const [editableInvoiceId, setEditableInvoiceId] = useState<string | null>(null);
   const [editedValues, setEditedValues] = useState<any>({});
   const itemsPerPage = 5;
+  const [addNewProduct, setAddNewProduct] = useState<NewProduct[]>([]);
+
+  useEffect(() => {
+    const storedNewProduct = localStorage.getItem("newProduct");
+    if (storedNewProduct) {
+      try {
+        const parsedProduct = JSON.parse(storedNewProduct);
+
+        console.log('Parsed Item ==', parsedProduct)
+        
+        // Update state using setNewCustomer
+        setAddNewProduct(() => {
+          return addNewProduct ? [...initialInvoiceData, parsedProduct] : initialInvoiceData;
+        });
+        
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    }
+  }, []);
 
   const handleDelete = (invoiceId: string) => {
-    const updatedInvoices = invoices.filter(invoice => invoice.invoiceId !== invoiceId);
-    setInvoices(updatedInvoices);
+    const updatedInvoices = addNewProduct.filter(invoice => invoice.productId !== invoiceId);
+    setAddNewProduct(updatedInvoices);
   };
 
   const handleEditClick = (invoiceId: string, field: string, value: string) => {
@@ -48,9 +77,9 @@ const ProductsBox = () => {
   };
 
   const handleDoneClick = (invoiceId: string) => {
-    setInvoices(prevInvoices =>
+    setAddNewProduct(prevInvoices =>
       prevInvoices.map(invoice =>
-        invoice.invoiceId === invoiceId
+        invoice.productId === invoiceId
           ? { ...invoice, ...editedValues }
           : invoice
       )
@@ -59,14 +88,14 @@ const ProductsBox = () => {
     setEditedValues({});
   };
 
-  const filteredInvoices = invoices.filter((invoice) => {
+  const filteredInvoices = addNewProduct.filter((invoice) => {
     const isWithinDateRange =
-      (!startDate || new Date(invoice.dueDate) >= startDate) &&
-      (!endDate || new Date(invoice.dueDate) <= endDate);
+      (!startDate || new Date(invoice.expiryDate) >= startDate) &&
+      (!endDate || new Date(invoice.expiryDate) <= endDate);
 
     const matchesSearchTerm =
-      invoice.invoiceId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.sentTo.toLowerCase().includes(searchTerm.toLowerCase());
+      invoice.productId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      invoice.chem.toLowerCase().includes(searchTerm.toLowerCase());
 
     return isWithinDateRange && matchesSearchTerm;
   });
@@ -104,10 +133,15 @@ const ProductsBox = () => {
 
       {/* Invoices Table */}
       <div className="overflow-x-auto">
-        <div className="min-w-[600px] grid grid-cols-5">
+        <div className="min-w-[600px] grid grid-cols-7">
           <div className="px-2 pb-3.5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
               Product ID
+            </h5>
+          </div>
+          <div className="px-2 pb-3.5">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              HSN/SAC Code
             </h5>
           </div>
           <div className="px-2 pb-3.5 text-center">
@@ -127,43 +161,54 @@ const ProductsBox = () => {
           </div>
           <div className="px-2 pb-3.5 text-center">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Expiry Date
+            </h5>
+          </div>
+          <div className="px-2 pb-3.5 text-center">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
               Action
             </h5>
           </div>
         </div>
 
-        {invoices.length === 0 ? <><p className="flex justify-center">No Data Found</p></>
+        {addNewProduct.length === 0 ? <><p className="flex justify-center">No Data Found</p></>
         :<>
         {paginatedInvoices.map((invoice) => (
           <div
-            className={`grid min-w-[600px] grid-cols-5 border-b border-stroke dark:border-dark-3`}
-            key={invoice.invoiceId}
+            className={`grid min-w-[600px] grid-cols-7 border-b border-stroke dark:border-dark-3`}
+            key={invoice.productId}
           >
             <div className="flex items-center gap-3.5 px-2 py-4">
               <p className="font-medium text-dark dark:text-white">
-                {invoice.invoiceId}
+                {invoice.productId}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3.5 px-2 py-4">
+              <p className="font-medium text-dark dark:text-white">
+                {invoice.hsnSacCode}
               </p>
             </div>
 
             {/* Product Name */}
-            <div className="flex items-center justify-center px-2 py-4">
-              {editableInvoiceId === invoice.invoiceId ? (
+            <div className="flex items-center px-2 py-4">
+              {editableInvoiceId === invoice.productId ? (
                 <input
                   type="text"
-                  value={editedValues.sentTo || invoice.sentTo}
-                  onChange={(e) => handleValueChange(e, "sentTo")}
+                  value={editedValues.chem || invoice.chem}
+                  onChange={(e) => handleValueChange(e, "chem")}
                   className="border p-1 rounded"
                 />
               ) : (
                 <p className="font-medium text-dark dark:text-white">
-                  {invoice.sentTo}
+                  {invoice.chem}
                 </p>
               )}
             </div>
 
             {/* Amount */}
             <div className="flex items-center justify-center px-2 py-4">
-              {editableInvoiceId === invoice.invoiceId ? (
+              {editableInvoiceId === invoice.productId ? (
                 <input
                   type="text"
                   value={editedValues.amount || invoice.amount}
@@ -179,7 +224,7 @@ const ProductsBox = () => {
 
             {/* Qty */}
             <div className="flex items-center justify-center px-2 py-4">
-              {editableInvoiceId === invoice.invoiceId ? (
+              {editableInvoiceId === invoice.productId ? (
                 <input
                   type="text"
                   value={editedValues.qty || invoice.qty}
@@ -193,19 +238,34 @@ const ProductsBox = () => {
               )}
             </div>
 
+            <div className="flex items-center justify-center px-2 py-4">
+              {editableInvoiceId === invoice.productId ? (
+                <input
+                  type="text"
+                  value={editedValues.expiryDate || invoice.expiryDate}
+                  onChange={(e) => handleValueChange(e, "expiryDate")}
+                  className="border p-1 rounded"
+                />
+              ) : (
+                <p className="font-medium text-dark dark:text-white">
+                  {invoice.expiryDate}
+                </p>
+              )}
+            </div>
+
             {/* Action */}
             <div className="flex items-center justify-center px-2 py-4">
             
-              {editableInvoiceId === invoice.invoiceId ? (
+              {editableInvoiceId === invoice.productId ? (
                 <button
-                  onClick={() => handleDoneClick(invoice.invoiceId)}
+                  onClick={() => handleDoneClick(invoice.productId)}
                   className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600"
                 >
                   Done
                 </button>
               ) : (
                 <button
-                  onClick={() => handleEditClick(invoice.invoiceId, "sentTo", invoice.sentTo)}
+                  onClick={() => handleEditClick(invoice.productId, "sentTo", invoice.chem)}
                   className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                 >
                   Edit
@@ -213,7 +273,7 @@ const ProductsBox = () => {
               )}
               <div className="pl-2">
             <button
-                  onClick={() => handleDelete(invoice.invoiceId)}
+                  onClick={() => handleDelete(invoice.productId)}
                   className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
                 >
                   Delete

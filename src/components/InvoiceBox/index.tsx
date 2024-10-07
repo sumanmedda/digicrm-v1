@@ -8,17 +8,17 @@ import { TiDeleteOutline } from "react-icons/ti";
 import CustomLoader from "../CustomLoader";
 
 const initialInvoiceData = [
-  { invoiceId: "INV-001", sentTo: "John Doe", amount: "1,250", dueDate: "2024-09-15", status: "Paid" },
-  { invoiceId: "INV-002", sentTo: "Jane Smith", amount: "2,450", dueDate: "2024-09-18", status: "Pending" },
-  { invoiceId: "INV-003", sentTo: "Tom Johnson", amount: "3,550", dueDate: "2024-09-20", status: "Overdue" },
-  { invoiceId: "INV-004", sentTo: "Emily Davis", amount: "1,750", dueDate: "2024-09-22", status: "Paid" },
-  { invoiceId: "INV-005", sentTo: "Michael Brown", amount: "4,350", dueDate: "2024-09-25", status: "Pending" },
-  { invoiceId: "INV-006", sentTo: "Chris Wilson", amount: "5,650", dueDate: "2024-10-01", status: "Upcoming" },
-  { invoiceId: "INV-007", sentTo: "Laura Miller", amount: "6,150", dueDate: "2024-09-30", status: "Paid" },
-  { invoiceId: "INV-008", sentTo: "Kevin Garcia", amount: "7,250", dueDate: "2024-10-02", status: "Upcoming" },
-  { invoiceId: "INV-009", sentTo: "Sarah Moore", amount: "8,350", dueDate: "2024-10-05", status: "Overdue" },
-  { invoiceId: "INV-010", sentTo: "Daniel Taylor", amount: "9,450", dueDate: "2024-10-08", status: "Paid" },
-  { invoiceId: "INV-011", sentTo: "Sophia Martinez", amount: "2,550", dueDate: "2024-09-28", status: "Pending" },
+  { invoiceId: "INV-001", sentTo: "Aarav Sharma", amount: "1,250", dueDate: "2024-09-15", status: "Paid" },
+  { invoiceId: "INV-002", sentTo: "Vihaan Iyer", amount: "2,450", dueDate: "2024-09-18", status: "Pending" },
+  { invoiceId: "INV-003", sentTo: "Arjun Gupta", amount: "3,550", dueDate: "2024-09-20", status: "Overdue" },
+  { invoiceId: "INV-004", sentTo: "Karan Bhatia", amount: "1,750", dueDate: "2024-09-22", status: "Paid" },
+  { invoiceId: "INV-005", sentTo: "Ishaan Chatterjee", amount: "4,350", dueDate: "2024-09-25", status: "Pending" },
+  { invoiceId: "INV-006", sentTo: "Aditya Agarwal", amount: "5,650", dueDate: "2024-10-01", status: "Upcoming" },
+  { invoiceId: "INV-007", sentTo: "Kavish Sethi", amount: "6,150", dueDate: "2024-09-30", status: "Paid" },
+  { invoiceId: "INV-008", sentTo: "Tanay Joshi", amount: "7,250", dueDate: "2024-10-02", status: "Upcoming" },
+  { invoiceId: "INV-009", sentTo: "Devansh Mehta", amount: "8,350", dueDate: "2024-10-05", status: "Overdue" },
+  { invoiceId: "INV-010", sentTo: "Nikhil Banerjee", amount: "9,450", dueDate: "2024-10-08", status: "Paid" },
+  { invoiceId: "INV-011", sentTo: "Ritvik Malhotra", amount: "2,550", dueDate: "2024-09-28", status: "Pending" },
 ];
 
 const InvoiceBox = () => {
@@ -204,7 +204,7 @@ const InvoiceBox = () => {
               </p>
             </div>
             <div className="flex items-center justify-center px-2 py-4 text-center">
-              <p className="font-medium text-green-500">${invoice.amount}</p>
+              <p className="font-medium text-green-500">₹{invoice.amount}</p>
             </div>
             <div className="flex items-center justify-center px-2 py-4 text-center">
               <p className="text-sm text-gray-500 dark:text-gray-400">
