@@ -62,7 +62,7 @@ const CustomerBox = () => {
       try {
         const parsedCustomer = JSON.parse(newLocalCustomer);
         setNewCustomer(() => {
-          return parsedCustomer ? [...initialCustomerData, parsedCustomer] : initialCustomerData;
+          return parsedCustomer ? [parsedCustomer, ...initialCustomerData] : initialCustomerData;
         });
       } catch (error) {
         console.error("Error parsing JSON:", error);
@@ -72,28 +72,29 @@ const CustomerBox = () => {
 
   return (
     <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
-      
-      {/* Add Customer Button */}
-      <div className="mb-5.5">
-        <button
-          onClick={() => router.push("/pages/newcustomer")}
-          className="px-4 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 w-full sm:w-auto"
-        >
-          Add Customer
-        </button>
-      </div>
 
-      {/* Search */}
+    <div className="col-span-1">
+      {/* Search and Add Customer Button */}
       <div className="flex items-center mb-5.5">
+        {/* Search Input */}
         <input
           type="text"
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="border border-gray-300 p-2 rounded-md w-full"
+          className="border border-gray-300 p-2 rounded-md flex-grow"
         />
+        
+        {/* Add Customer Button */}
+        <button
+          onClick={() => router.push("/pages/newcustomer")}
+          className="ml-2 px-4 py-2 border font-bold border-blue-500 rounded-md bg-blue-500 text-white hover:bg-blue-600 whitespace-nowrap"
+        >
+          Add Customer
+        </button>
       </div>
-
+    </div>
+      
       {/* Customers Table */}
       <div className="overflow-x-auto">
         <div className="hidden sm:grid sm:grid-cols-4">

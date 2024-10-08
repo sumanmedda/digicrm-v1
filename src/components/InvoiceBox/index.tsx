@@ -82,11 +82,12 @@ const InvoiceBox = () => {
   };
 
   return <>
-  <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card mb-2">
-
-      {/* Date Pickers and Search */}
-      <div className="flex flex-col sm:flex-row justify-between mb-5.5">
-        <div className="flex flex-col sm:flex-row items-center mb-4 sm:mb-0 w-full">
+    <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card mb-2">
+      {/* Date Pickers, Search, and Add Invoice Button */}
+      <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0 lg:space-x-4 mb-5.5 w-full">
+        <div className="flex">
+          {/* Start Date */}
+        <div className="w-full lg:w-auto flex-grow mr-2">
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date || undefined)}
@@ -95,8 +96,12 @@ const InvoiceBox = () => {
             endDate={endDate}
             placeholderText="Start Date"
             dateFormat={"yyyy-MM-dd"}
-            className="border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 sm:mr-2 w-full"
+            className="border border-gray-300 p-2 rounded-md w-full"
           />
+        </div>
+    
+        {/* End Date */}
+        <div className="w-full lg:w-auto flex-grow mr-1">
           <DatePicker
             selected={endDate}
             onChange={(date) => setEndDate(date || undefined)}
@@ -106,36 +111,40 @@ const InvoiceBox = () => {
             minDate={startDate}
             placeholderText="End Date"
             dateFormat={"yyyy-MM-dd"}
-            className="ml-1 border border-gray-300 p-2 rounded-md mb-2 sm:mb-0 w-full"
+            className="border border-gray-300 p-2 rounded-md w-full"
           />
-          <button
-            onClick={handleDateClear}
-            className="h-10 px-2 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2"
-          >
-            <TiDeleteOutline />
-          </button>
         </div>
+
+        {/* Clear Dates Button */}
         <button
-          onClick={handleAddProduct}
-          className="px-2 py-2 border border-green-500 rounded-md bg-green-500 text-white hover:bg-green-600 w-40"
+          onClick={handleDateClear}
+          className="h-10 px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 lg:w-auto w-full"
         >
-          {!startLoader?"Add Invoice" :<CustomLoader />} 
+          <TiDeleteOutline />
         </button>
-      </div>
-      
-      {/* Add Product Button */}
-      <div className="flex w-full mb-4">
-      <input
+        </div>
+
+        {/* Search Input */}
+        <div className="w-full lg:w-auto flex-grow">
+          <input
             type="text"
             placeholder="Search..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="border border-gray-300 p-2 rounded-md w-full"
           />
-      </div>
+        </div>
 
-      
+        {/* Add Invoice Button */}
+        <button
+          onClick={handleAddProduct}
+          className="px-4 py-2 border border-blue-500 rounded-md bg-blue-500 font-bold text-white hover:bg-blue-600 w-full lg:w-auto"
+        >
+          {!startLoader ? "Add Invoice" : <CustomLoader />}
+        </button>
     </div>
+</div>
+
 
     <div className="rounded-[10px] bg-white px-4 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
 
@@ -147,7 +156,7 @@ const InvoiceBox = () => {
             onClick={() => setSelectedTab(tab)}
             className={`w-full px-4 py-2 text-center rounded-xl border-b-2 ${
               selectedTab === tab
-                ? "bg-violet-500 text-white"
+                ? "bg-blue-500 text-white"
                 : "border-transparent text-gray-500 hover:border-gray-300"
             }`}
           >

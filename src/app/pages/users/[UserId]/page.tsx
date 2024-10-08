@@ -17,16 +17,16 @@ interface User {
 const initialUserData: User[] = [
   {
     UserId: 'USR-001',
-    name: 'John Doe',
-    email: 'john@example.com',
+    name: 'Ronak Sharma',
+    email: 'rs5564@gmail.com',
     phone: '123-456-7890',
     role: 'Admin',
     address: '123 Main St, Springfield',
   },
   {
     UserId: 'USR-002',
-    name: 'Jane Smith',
-    email: 'jane@example.com',
+    name: 'Sampad Medda',
+    email: 'smedda667@gmail.com',
     phone: '987-654-3210',
     role: 'User',
     address: '456 Elm St, Metropolis',

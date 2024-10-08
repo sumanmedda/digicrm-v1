@@ -16,17 +16,17 @@ interface Customer {
 const initialCustomerData: Customer[] = [
   {
     customerId: 'CSTR-001',
-    name: 'John Doe',
-    email: 'john@example.com',
-    phone: '123-456-7890',
-    address: '123 Main St, Springfield',
+    name: 'Caparo',
+    email: 'sales@caparo.com',
+    phone: '+91-7764598367',
+    address: 'A-7, Chopanki Industrial Area, Bhiwadi, Alwar-415514, Rajasthan, India',
   },
   {
     customerId: 'CSTR-002',
-    name: 'Jane Smith',
-    email: 'jane@example.com',
-    phone: '987-654-3210',
-    address: '456 Elm St, Metropolis',
+    name: 'LPS',
+    email: 'lps.sales@lps.com',
+    phone: '+91-9987364738',
+    address: '456 Elm St, Rohtak',
   },
   // Add more customers as needed
 ];

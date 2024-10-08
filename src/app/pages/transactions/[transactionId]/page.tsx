@@ -26,7 +26,7 @@ const productData = [
 const initialTransactionData: Transaction[] = [
   {
     transactionId: 'TXN-001',
-    customer: 'John Doe',
+    customer: 'Ronak Sharma',
     amount: '1,250',
     billingDate: '2024-09-01',
     settlementDate: '2024-09-10',
@@ -36,7 +36,7 @@ const initialTransactionData: Transaction[] = [
   },
   {
     transactionId: 'TXN-002',
-    customer: 'Jane Smith',
+    customer: 'Sampad Medda',
     amount: '2,450',
     billingDate: '2024-09-02',
     settlementDate: '2024-09-12',
