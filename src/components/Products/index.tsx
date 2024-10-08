@@ -95,7 +95,8 @@ const ProductsBox = () => {
 
     const matchesSearchTerm =
       invoice.productId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.chem.toLowerCase().includes(searchTerm.toLowerCase());
+      invoice.chem.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      invoice.hsnSacCode.toLowerCase().includes(searchTerm.toLowerCase());
 
     return isWithinDateRange && matchesSearchTerm;
   });

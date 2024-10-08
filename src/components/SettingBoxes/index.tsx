@@ -132,10 +132,9 @@ const SettingBoxes = () => {
                     BIO
                   </label>
                   <div className="relative">
-                    <span className="absolute left-5 top-8">
-                      <MdOutlineEditNote />
-                    </span>
-
+              
+                    <MdOutlineEditNote className="absolute left-5 top-6 scale-150"/>
+                    
                     <textarea
                       className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-5 pl-13 pr-5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
                       name="bio"
