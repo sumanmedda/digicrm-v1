@@ -25,7 +25,6 @@ const CustomerBox = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [customers, setCustomers] = useState(initialCustomerData);
   const itemsPerPage = 5;
   const [newCustomer, setNewCustomer] = useState<Customer[]>([]);
 
@@ -51,8 +50,8 @@ const CustomerBox = () => {
     currentPage * itemsPerPage
   );
 
-  const handleRowClick = (customerId: string) => {
-    router.push(`/pages/customer/${customerId}`);
+  const handleRowClick = (customer: any) => {
+    router.push(`/pages/customer/${customer}`);
   };
 
   useEffect(() => {
@@ -124,7 +123,7 @@ const CustomerBox = () => {
           <div
             className="grid grid-cols-1 sm:grid-cols-4 sm:gap-0 gap-y-2 border-b border-stroke dark:border-dark-3 cursor-pointer sm:min-w-[500px] min-w-full"
             key={customer.customerId}
-            onClick={() => handleRowClick(customer.customerId)}
+            onClick={() => handleRowClick(customer)}
           >
             <div className="flex items-center gap-3.5 px-2 py-4">
               <p className="font-medium text-dark dark:text-white sm:text-left text-center w-full sm:w-auto">
