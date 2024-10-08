@@ -161,6 +161,14 @@ const NewInvoiceBox = () => {
   const taxAmount = (totalAmount * tax) / 100;
   const grandTotal = totalAmount + taxAmount;
 
+  const formatDate = (date:any) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -170,6 +178,8 @@ const NewInvoiceBox = () => {
       showAlert('Please fill in all required fields.!', 'warning');
       return;
     }
+    const formattedInvoiceDate = formatDate(invoiceDate);
+    const formattedDueDate = formatDate(dueDate);
 
     const invoiceData = {
       ...state,
@@ -188,7 +198,7 @@ const NewInvoiceBox = () => {
     )
 
     const newInvoiceData = {
-      'invoiceId':newInvoiceId,'sentTo':selectedCustomer,'amount':totalAmount,'dueDate':dueDate,'status':'Pending'
+      'invoiceId':newInvoiceId,'sentTo':selectedCustomer,'amount':totalAmount,'dueDate':formattedDueDate,'status':'Pending'
     }
     localStorage.setItem('invoiceData', JSON.stringify(newInvoiceData));
     showAlert('Invoice Sent Successfully!', 'success');
