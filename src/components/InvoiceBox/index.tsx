@@ -1,11 +1,19 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/navigation";
 import { TiDeleteOutline } from "react-icons/ti";
 import CustomLoader from "../CustomLoader";
+
+interface Invoice {
+  invoiceId: string;
+  sentTo: string;
+  amount: string;
+  dueDate: string;
+  status: string;
+}
 
 const initialInvoiceData = [
   { invoiceId: "INV-001", sentTo: "Aarav Sharma", amount: "1,250", dueDate: "2024-09-15", status: "Paid" },
@@ -29,8 +37,25 @@ const InvoiceBox = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [startLoader, setStartLoader] = useState(false);
   const [invoices, setInvoices] = useState(initialInvoiceData);
+  const [newInvoice, setNewInvoice] = useState<Invoice[]>([]);
   const [selectedTab, setSelectedTab] = useState("All");
   const itemsPerPage = 5;
+
+  useEffect(() => {
+    const newInvoice = localStorage.getItem('invoiceData');
+  
+    if (newInvoice) {
+      try {
+        const parsedNewInvoice = JSON.parse(newInvoice);
+        setNewInvoice(() => {
+          return parsedNewInvoice ? [parsedNewInvoice, ...initialInvoiceData] : initialInvoiceData;
+        });
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    }
+  }, []);
+
 
   const handleDateClear = () => {
     setStartDate(undefined);
@@ -38,10 +63,10 @@ const InvoiceBox = () => {
   };
 
   const handleStatusChange = (invoiceId: string, newStatus: string) => {
-    const updatedInvoices = invoices.map((invoice) =>
+    const updatedInvoices = newInvoice.map((invoice) =>
       invoice.invoiceId === invoiceId ? { ...invoice, status: newStatus } : invoice
     );
-    setInvoices(updatedInvoices);
+    setNewInvoice(updatedInvoices);
   };
 
   const filterByTab = (invoice: any) => {
@@ -52,7 +77,7 @@ const InvoiceBox = () => {
     return true;
   };
 
-  const filteredInvoices = invoices
+  const filteredInvoices = newInvoice
     .filter(filterByTab)
     .filter((invoice) => {
       const isWithinDateRange =
